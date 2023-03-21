@@ -1,0 +1,25 @@
+.projects {
+    background-image: linear-gradient(rgba(236, 228, 228, 0.7), #98a7e2), url(../../pages/Login/image/962218_412313.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+        section:hover {
+            transition: all 0.7s ease;
+            transform: scale(1.1);
+        }
+        
+    }
+    h2 {
+        animation: flip 2s infinite;
+            animation-delay: calc(.2s * var(i) );
+            display: inline-block;
+
+        }
+            @keyframes flip {    
+                0%,80% {
+                transform: rotateY(360deg) 
+                } 
+
+    }
+    

@@ -1,0 +1,22 @@
+.chart {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    aspect-ratio: 1/2;
+    height: 260px;
+    width: 100%;
+    box-shadow: 2px 4px 10px 2px rgba(173, 172, 172, 0.67);
+    padding: 3px;
+    color: #808080;
+    border-radius: 5px;
+    font-size: 14px;
+    .title {
+        margin-bottom: 5px;
+        padding-right: 20px;
+        font-size: 15px;
+
+    }
+    .chartGrid {
+        stroke: rgb(228, 225, 225);
+    }
+}

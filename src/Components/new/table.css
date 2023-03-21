@@ -1,0 +1,79 @@
+.datatableHome {
+  /* position:absolute; */
+  display: flex;
+  align-items: center;
+  color: dimgray;
+
+}
+
+.btn.dropdown-toggle {
+  font-size: 12px;
+
+}
+input::placeholder {
+  font-size: 12px;
+  /* text-indent: 5px; */
+} 
+.table th {
+  height: 10px!important;
+}
+.table {
+  color: #323333;
+  font-size: 12px;
+  position: relative;
+
+}
+
+.filter {
+  position: absolute;
+  font-size: 12px;
+  width: 90px!important;
+  top: -51px;
+  right: 200px;
+  height: 33px;
+}
+.table thead {
+  background-color: #baaaf3;
+
+}
+
+.table thead:hover {
+  cursor: pointer;
+}
+
+.table th,
+.table td,
+.table tr {
+  align-items: center;
+  color: #323333;
+  padding: 0.2rem;
+  vertical-align: top;
+  border: 1px solid #232424;
+
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(226, 218, 218, 0.075);
+  color: #323333;
+
+}
+
+/* //   .viewButton,
+//   .deleteButton,
+//   .cellWithStatus {
+//     color: gray;
+//     border: none;
+
+// } */
+
+
+.viewButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding-top: 3px;
+  cursor: pointer;
+  color: rgb(0, 110, 255);
+
+}

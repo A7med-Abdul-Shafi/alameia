@@ -1,0 +1,7 @@
+input::placeholder {
+    font-size: 12px;
+    text-indent: 5px;
+  } 
+  form {
+    display: flex;
+  }

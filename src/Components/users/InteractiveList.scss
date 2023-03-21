@@ -1,0 +1,119 @@
+.datatable {
+    height: 600px;
+    padding: 20px;
+
+    .datatableTitle {
+        width: 100%;
+        font-size: 20px;
+        color: gray;
+        margin-bottom: 20px;
+        padding-left: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        button {
+            background-color: teal;
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            // border: 1px solid green;
+            padding: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        
+        }
+    .cellWithImg {
+        display: flex;
+        align-items: center;
+        .cellImg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 20px;
+        }
+    }
+    .cellWithStatus {
+        padding: 5px;
+        border-radius: 5px;
+        &.active {
+            background-color: rgba(0, 128, 0, 0.05);
+            color: green;
+        }
+        &.pending {
+            background-color: rgba(255, 217, 0, 0.05);
+            color: goldenrod;
+        }
+        &.passive {
+            background-color: rgba(255, 0, 0, 0.05);
+            color: crimson;
+        }
+    }
+    .cellAction {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        .viewButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: rgb(38, 136, 248);
+            border: 1px dotted rgb(38, 136, 248);
+            cursor: pointer;
+        }
+        .deleteButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: crimson;
+            border: 1px dotted rgba(220, 20, 60, 0.6);
+            cursor: pointer;
+            .spinner {
+                /* just to push the spinner away from the search bar */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2em;
+                height: 2em;
+                border-radius: 50%;  
+                animation: 1s linear infinite spin;  
+            }
+            
+            @keyframes spin {
+                from {
+                    transform: rotate(0turn)
+                }
+                to {
+                    transform: rotate(1turn)
+                }
+            }
+            
+            /* keep the snippet console small */
+            div.as-console-wrapper {
+                max-height: calc(1em + 9px)
+            }
+        }
+    }
+    .MuiDataGrid-footerContainer  {
+        // position: rtl;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .MuiTablePagination-displayedRows {
+            padding-right: 30px;
+            font-size: 18px;
+            direction: ltr;
+            padding-top: 10px;
+            .MuiTablePagination-actions {
+                color: rgb(38, 136, 248);
+            }
+        }
+        .MuiSvgIcon-root {
+            color: #999;
+        }
+        
+    }
+}

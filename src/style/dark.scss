@@ -1,0 +1,181 @@
+@import url(https://fonts.googleapis.com/earlyaccess/droidarabickufi.css); 
+
+.app.dark { 
+  background-color: #111;
+  color: rgb(156, 156, 156);
+
+  .title {
+    color: rgba(211, 211, 211, 0.89);
+  }
+  li .nav-link {
+    color: rgba(211, 211, 211, 0.89);
+  }
+  .chartGrid {
+    stroke: rgba(228, 228, 228, 0.219);
+  }
+  .homeContainer1 {
+    .mb-3 {
+      background-color: #111 ;
+      border-radius: 5px;
+    }
+  }
+.about, .contact, .projects {
+  background-color: #fff;
+}
+.searchNew {
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+}
+  .widget, .widget2 {
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  }
+.featured {
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+}
+.newContainer {
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+}
+.newContainer1 {
+  .bottom {
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+  }
+}
+  .navbar {
+    color: #999!important;
+    border-color: #333!important;
+    background-color: #111!important;
+    .top {
+      .logo {
+        color: #999;
+      }
+    }
+  }
+  .invoice {
+    table, tbody, tr, td, th{
+      color: #999;
+      border: 1px solid #999;
+    }
+  }
+  .spinner {
+    border-color: #999;
+  }
+  .sidebar {
+    background-color: #111;
+    border-color: #333;
+    color: #999;
+    .title, .center, span {
+      color: #999;
+
+    }
+    
+
+    hr {
+      border-color: #333;
+    }
+
+    ul {
+      li {
+        &:hover {
+          background-color: #333;
+        }
+
+        .icon {
+          color: #999;
+        }
+      }
+    }
+  }
+
+  .datatable {
+    font-size: 17px;
+
+    .datagrid {
+      color: #999;
+      // border: none;
+      background-color: #000;
+      font-size: 15px;
+
+
+    }
+  }
+  
+  .MuiTableCell-body {
+    color: grey;
+    font-weight: bold;
+  }
+  
+  .MuiTableCell-head {
+    color: grey;
+    font-weight: 500;
+
+  }
+
+  .dataTableHome {
+    --bs-table-border-color: grey;
+    color: rgb(179, 170, 170);
+
+    .table {
+      color: rgb(179, 170, 170);
+      
+    }
+
+    .table thead {
+      background-color: #333;
+      color: #eceeef;
+    }
+
+    .table th,
+    .table td {
+      color: rgb(179, 170, 170);
+      padding: 0.5rem;
+      vertical-align: top;
+      border: 0.7px solid #eceeefd3;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: rgba(226, 218, 218, 0.075);
+      // color: #eceeef;
+    }
+    //   .viewButton,
+    //   .deleteButton,
+    //   .cellWithStatus {
+    //     color: gray;
+    //     border: none;
+    // }
+  }
+
+  input {
+    background-color: transparent;       
+    color: #eceeef;
+    border-radius: 5px;
+  }
+
+  .table {
+    color: rgb(179, 170, 170);
+
+  }
+  // .new1{
+  //   label {
+  //     margin-top: 0rem!important;
+  //   }
+  // }
+}
+section {
+  width: 100%;
+  max-width: 420px;
+  /* min-height: calc(100vh - 70px); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(71, 69, 69, 0.76);
+  color: #999;
+  border-radius: 7px;
+  input {
+    color: #eceeef;
+    background-color: #333;
+  }
+  
+}

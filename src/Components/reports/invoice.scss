@@ -1,0 +1,75 @@
+.invoice {
+    margin-top: 0.3rem;
+    align-items: flex-start;
+    direction: ltr;
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    .tables {
+        padding: 0.1rem;
+        display: flex;
+        flex: auto;
+        gap: 2rem;
+        line-height: 10px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+    .verticalTableHeader {
+        line-height: 30px;
+        white-space: nowrap;
+        font-weight: 400;
+        text-align: center;
+        white-space: normal;
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
+        font-weight: bold;
+        max-width: 15px;
+        padding: 0px;
+        .verticalTableHeader:before {
+            content: '';
+            padding-top: 110%;
+            /* takes width as reference, + 10% for faking some extra padding */
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .center {
+        margin-top: 0px;
+        padding-top: 0;
+        line-height: 10px;
+        padding: 0.2rem;
+        font-size: 12px;
+
+        .rows {
+            width: 40px;
+        }
+    }
+
+    .bottom1 {
+        display: flex;
+    }
+
+    .fotter {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+
+        .end {
+            display: block;
+            width: 100%;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+
+        .signature {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-top: 0px;
+            margin-top: 0px;
+            height: 100%;
+            width: 60%;
+        }
+    }
+}
