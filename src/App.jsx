@@ -28,10 +28,9 @@ import SingleMorgan2Bathaa from "./pages/Single/SingleMorgan2Bathaa";
 import SingleParadise from "./pages/Single/SingleParadise";
 import SingleNefeay from "./pages/Single/SingleNefeay";
 import Contact from "./pages/blogs/Contact";
-import "./style/dark.scss"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React from 'react';
-// import { userInputs } from "./formSource";
+import "./style/dark.scss";
+import { Routes, Route } from "react-router-dom";
+import React from "react";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import Register from "./pages/Register/Register";
@@ -44,12 +43,15 @@ import EwaaaReport from "./pages/Reports/EwaaaReport";
 import EwaabReport from "./pages/Reports/EwaabReport";
 import AlameiaFood from "./pages/Food/FoodAlameia";
 import Transportation from "./pages/Transportation/TransportationTab";
-import BuildingsReport from "./pages/Reports/BuildingsReport"
+import BuildingsReport from "./pages/Reports/BuildingsReport";
+import BuildingsInvoice from "./pages/Reports/BuildingsInvoice"; 
 import MaintainenceActions from "./pages/maintainence/Maintainence";
+import EditUser from "./pages/newuser/EditUser";
+import PersistLogin from "./auth/PersistLogin";
 
 function App() {
-
-  const { darkMode } = useContext(DarkModeContext)
+  
+  const { darkMode } = useContext(DarkModeContext);
   const client = new QueryClient({
     defaultOptions: {
       queries: {
@@ -57,27 +59,28 @@ function App() {
         staleTime: 0,
         cacheTime: 0,
         refetchInterval: 0,
-      }
-    }
+      },
+    },
   });
-
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <QueryClientProvider client={client}>
-        <BrowserRouter>
           <Routes>
-            <Route path="/"  >
+            <Route path="/">
               <Route index element={<Login />} />
-              <Route path="/Login" element={<Login />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/home" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="Login" element={<Login />} />
+              <Route path="about" element={<About />} />
+              <Route path="projects" element={<Projects />} /> 
+              <Route path="contact" element={<Contact />} />
+              <Route path="register" element={<Register />} />
+
+              {/* Protected Routes */}
+              <Route element={<PersistLogin />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dashboard/user" element={<User />} />
+              <Route path="/dashboard/user/:id" element={<EditUser />} />
               <Route path="/dashboard/users" element={<Userlist />} />
-              <Route path="/dashboard/maintainence" element={<MaintainenceActions />} />
+              <Route path="/dashboard/maintainence" element={<MaintainenceActions />}/>
               <Route path="/dashboard/alameia" element={<List />} />
               <Route path="/dashboard/alameia/food" element={<AlameiaFood />} />
               <Route path="/dashboard/alameia/transport" element={<Transportation />} />
@@ -86,19 +89,47 @@ function App() {
               <Route path="/dashboard/reportdueewaa" element={<EwaaaReport />} />
               <Route path="/dashboard/reportdueewaab" element={<EwaabReport />} />
               <Route path="/dashboard/buildings" element={<BuildingsReport />} />
+              <Route path="/dashboard/buildings/invoices" element={<BuildingsInvoice />} />
               <Route path="/dashboard/ewaa2" element={<Liste2 />} />
               <Route path="/dashboard/haramain" element={<Listh />} />
               <Route path="/dashboard/ewaa1" element={<Liste1 />} />
               <Route path="/dashboard/single/:id" element={<Single />} />
-              <Route path="/dashboard/singlesafa/:id" element={<SingleSafa />} />
-              <Route path="/dashboard/singlesawady1/:id" element={<SingleSawady1 />} />
-              <Route path="/dashboard/singlesawady2/:id" element={<SingleSawady2 />} />
-              <Route path="/dashboard/singlebatawy1/:id" element={<SingleBatawy1 />} />
-              <Route path="/dashboard/singlebatawy2/:id" element={<SingleBatawy2 />} />
-              <Route path="/dashboard/singlewaqf/:id" element={<SingleWaqf />} />
-              <Route path="/dashboard/singlematrafy/:id" element={<SingleMatrafy />} />
-              <Route path="/dashboard/singlehemyani/:id" element={<SingleHemyani />} />
-              <Route path="/dashboard/singlerahmaneya/:id" element={<SingleRahmaneya />} />
+              <Route
+                path="/dashboard/singlesafa/:id"
+                element={<SingleSafa />}
+              />
+              <Route
+                path="/dashboard/singlesawady1/:id"
+                element={<SingleSawady1 />}
+              />
+              <Route
+                path="/dashboard/singlesawady2/:id"
+                element={<SingleSawady2 />}
+              />
+              <Route
+                path="/dashboard/singlebatawy1/:id"
+                element={<SingleBatawy1 />}
+              />
+              <Route
+                path="/dashboard/singlebatawy2/:id"
+                element={<SingleBatawy2 />}
+              />
+              <Route
+                path="/dashboard/singlewaqf/:id"
+                element={<SingleWaqf />}
+              />
+              <Route
+                path="/dashboard/singlematrafy/:id"
+                element={<SingleMatrafy />}
+              />
+              <Route
+                path="/dashboard/singlehemyani/:id"
+                element={<SingleHemyani />}
+              />
+              <Route
+                path="/dashboard/singlerahmaneya/:id"
+                element={<SingleRahmaneya />}
+              />
               <Route path="/dashboard/singlesaqaf/:id" element={<SingleSaqaf />} />
               <Route path="/dashboard/singlefeda/:id" element={<SingleFeda />} />
               <Route path="/dashboard/singleelsalam/:id" element={<SingleElsalam />} />
@@ -111,10 +142,10 @@ function App() {
               <Route path="/dashboard/single2/:id" element={<Single2 />} />
               <Route path="/dashboard/single3/:id" element={<Single3 />} />
             </Route>
+            </Route>{/* End Dash */}
           </Routes>
-        </BrowserRouter>
       </QueryClientProvider>
-    </div >
+    </div>
   );
 }
 

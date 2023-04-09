@@ -1,24 +1,23 @@
-import "./InteractiveList.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import api from "../../customApi";
+import "./InteractiveList.scss";
 function Loading() {
-  return <div className="spinner" />;
+  return <div className="spinner" />
 }
 const userColumns = [
-  // { field: "id", headerName: "#", width: 70 },
   {
     field: "emp_no",
     headerName: "الرقم الوظيفي",
     width: 120,
   },
   {
-    field: "username",
+    field: "name",
     headerName: "الإسم",
-    width: 180,
+    width: 150,
   },
   {
     field: "email",
@@ -26,23 +25,22 @@ const userColumns = [
     width: 180,
   },
   {
-    field: "house",
-    headerName: "السكن",
-    width: 100,
-  },
-  {
-    field: "roles",
-    headerName: "صلاحية",
-    width: 100,
+    field: "username",
+    headerName: "إسم المستخدم",
+    width: 140,
   },
   {
     field: "password",
     headerName: "كلمة المرور",
     width: 180,
   },
+  {
+    field: "roles",
+    headerName: "صلاحية",
+    width: 100,
+  },
+  
 ];
-
-//temporary data
 
 function InteractiveList () {
   const [data, setData] = useState([]);
@@ -94,7 +92,7 @@ function InteractiveList () {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/dashboard/user" style={{ textDecoration: "none" }}>
+            <Link to={`/dashboard/user/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">تعديل</div>
             </Link>
             <div

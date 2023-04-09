@@ -1,7 +1,7 @@
 import "./new.scss";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import Newuser from "../../Components/newuser/Newuser";
+import Newuser from "../../Components/users/Newuser";
 const User = () => {
 
   return (

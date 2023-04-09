@@ -47,7 +47,7 @@ const Sawady1EditRooms = () => {
     const id = data[0].id;
     setIsLoading(true);
     await axios
-      .put(`${url}1/sawady1vacant/update/` + id, item)
+      .put(`${url}/sawady1vacant/update/` + id, item)
       .then((response) => {
         setShow(false);
         Swal.fire({

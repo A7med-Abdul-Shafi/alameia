@@ -164,7 +164,7 @@ const handleJustifyClick = (value) => {
                 <MDBTabsLink
                 onClick={() => handleJustifyClick("tab17")}
                 active={justifyActive === "tab17"}
-                >
+                >   
                 الوقف
                 </MDBTabsLink>
             </MDBTabsItem>

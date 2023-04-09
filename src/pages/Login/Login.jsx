@@ -9,15 +9,13 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../auth/authSlice";
 import { useLoginMutation } from "../../auth/authApiSlice";
 import usePersist from "../../hooks/usePersist";
-import api from "../../customApi"
+
 const Login = () => {
-  const errRef = useRef();
   const userRef = useRef();
   const [error, setError] = useState(false);
   const [user, setUser] = useState(null);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [success, setSuccess] = useState(false);
   const [persist, setPersist] = usePersist();
   const [login, { isLoading }] = useLoginMutation();
 
@@ -40,7 +38,9 @@ const Login = () => {
       console.log(err);
     }
   };
-
+  function Loading() {
+    return <div className="spinner" />
+  }
   const axiosJWT = axios.create();
   axiosJWT.interceptors.request.use(
     async (config) => {
@@ -66,41 +66,17 @@ const Login = () => {
     navigate("/dashboard");
     } catch (err) {
       if (!err.status) {
-        setError("No Server Response");
+        setError('لا يوجد إتصال بالسيرفر');
       } else if (err.status === 400) {
-        setError("Missing Username or Password");
+        setError('إسم المستخدم أو كلمة المرور غير صحيحة');
       } else if (err.status === 401) {
-        setError("Unauthorized");
+        setError('المستخدم غير مصرح');
       } else {
         setError(err.data?.message);
       }
-      // errRef.current.focus();
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //         const res = await axios.post(`${api}/auth`, { username, password });
-  //         navigate('/dashboard')
-  //         setUser(res.data);
-  //     } catch (err) {
-  //         setError(true);
-  //         console.log(err);
-  //     }
-  // };
-  const handleDelete = async (id) => {
-    setSuccess(false);
-    setError(false);
-    try {
-      await axiosJWT.delete("/users/" + id, {
-        headers: { authorization: "Bearer " + user.accessToken },
-      });
-      setSuccess(true);
-    } catch (err) {
-      setError(true);
-    }
-  };
+  const handleToggle = () => setPersist(prev => !prev)
   return (
     <div className="login">
       <Navbar2 />
@@ -136,13 +112,17 @@ const Login = () => {
               </label>
             </div>
             <div className="check">
-              <input type="checkbox" id="box" />
+              <input 
+                type="checkbox" id="box" 
+                onChange={handleToggle}
+                checked={persist}
+                />
               <p style={{ fontSize: "15px" }}>تذكرني</p>
             </div>
           </div>
           {error && <span>إسم المستخدم أو كلمة المرور خاطئة</span>}
           <button type="submit" style={{ fontSize: "18px" }}>
-            دخول
+            {isLoading?(Loading()):"دخول"}
           </button>
           <div className="create">
             <Link to="/register">

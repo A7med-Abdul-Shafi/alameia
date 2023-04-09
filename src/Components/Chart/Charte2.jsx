@@ -105,7 +105,7 @@ function ChartEwaab({ aspect }) {
           <CartesianGrid
             strokeDasharray="3 3"
             className="chartGrid"
-            stroke="rgb(228, 225, 225"
+            stroke="rgb(228, 225, 225)"
           />
           <Tooltip />
           <Area
@@ -113,7 +113,7 @@ function ChartEwaab({ aspect }) {
             dataKey="Total"
             stroke="#8884d8"
             fillOpacity={1}
-            fill="api(#colorUv)"
+            fill="url(#colorUv)"
           />
         </AreaChart>
       </ResponsiveContainer>

@@ -1,2 +1,2 @@
-const  api =  'https://sbg-makkah-camps-api.onrender.com' 
+const api = 'http://localhost:3001'
 export default api    

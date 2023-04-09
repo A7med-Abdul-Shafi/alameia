@@ -1,7 +1,7 @@
 import "./style.scss";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import InvoiceReport from "../../Components/reports/Haramain/InvoiceReport";
+import InvoiceHaramain from "../../Components/reports/Haramain2/InvoiceHaramain";
 
 const HaramainReport = () => {
     return (
@@ -9,7 +9,7 @@ const HaramainReport = () => {
         <Sidebar/>
         <div className="listContainer">
             <Navbar/>
-            <InvoiceReport/>
+            <InvoiceHaramain/>
         </div>
         </div>
     )

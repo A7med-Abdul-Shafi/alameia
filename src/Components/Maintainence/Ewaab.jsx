@@ -67,7 +67,7 @@ function EwaabMaintain() {
   const [room_no, setRoom_no] = useState("");
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [housing, setHousing] = useState("");
-  const { data, isFetchLoading, isError, refetch } = useQuery(
+  const { data, refetch } = useQuery(
     ["ewaabMaintainence"],
     async () => {
       return await axios.get(`${api}/ewaabmaintainence/list`).then((res) => res.data);

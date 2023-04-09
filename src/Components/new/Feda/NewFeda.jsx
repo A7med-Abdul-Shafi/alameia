@@ -21,7 +21,7 @@ function NewFeda() {
   const FILE_SIZE = File.size / 1024 / 1024;
 
   const validationSchema = yup.object().shape({
-    emp_no: yup.number().required("أدخل الرقم الوظيفي"),
+    emp_no: yup.string().required("أدخل الرقم الوظيفي"),
     name: yup.string().required("أدخل الإسم "),
     project: yup.string().required("أدخل المشروع "),
     nationality: yup.string().required("أدخل الجنسية "),
@@ -351,7 +351,7 @@ function NewFeda() {
                     <input
                       autoComplete="off"
                       className="formInput"
-                      type="number"
+                      type="text"
                       id="emp_no"
                       name="emp_no"
                       placeholder=""
@@ -593,7 +593,7 @@ function NewFeda() {
                     <Field
                       autoComplete="off"
                       className="formInput"
-                      type="number"
+                      type="text"
                       id="emp_no"
                       name="emp_no"
                       placeholder=""

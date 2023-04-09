@@ -1,0 +1,3131 @@
+import React, { useState, useEffect } from "react";
+import "../reportalameia.scss";
+import "../invoice.scss";
+import { Formik, Field } from "formik";
+import * as yup from "yup";
+import axios from "axios";
+import api from "../../../customApi";
+import SBG from "../sbg.png";
+import ReactToPdf from "react-to-pdf";
+import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
+import { InvoiceNumber } from "invoice-number";
+
+function InvoiceReport() {
+const ref = React.createRef();
+function getMonthShortName(monthNo) {
+const date = new Date();
+date.setMonth(monthNo - 1);
+return date.toLocaleString("en-US", { month: "short" });
+}
+function getDays(year, month) {
+return new Date(year, month, 0).getDate();
+}
+const month = new Date().getMonth();
+const date = new Date();
+const currentYear = date.getFullYear();
+const monthDays = getDays(currentYear, month + 1);
+
+var background = "rgb(98, 195, 233)";
+var backgroundYellow = "rgba(250, 240, 95, 0.973)";
+const firstDay = new Date(
+date.getFullYear(),
+date.getMonth(),
+1
+).toLocaleDateString();
+const lastDay = new Date(
+date.getFullYear(),
+date.getMonth() + 1,
+0
+).toLocaleDateString();
+const months = [
+"يناير",
+"فبراير",
+"مارس",
+"إبريل",
+"مايو",
+"يونيو",
+"يوليو",
+"أغسطس",
+"سبتمبر",
+"أكتوبر",
+"نوفمبر",
+"ديسمبر",
+];
+const currentMonth = months.slice(month, month + 1);
+const initalValues = {
+project: "كل المشاريع",
+};
+const validationSchema = yup.object().shape({
+project: yup.string().required("إختر المشروع "),
+});
+const [project, setProject] = useState("كل المشاريع");
+const handleOnChange = (e) => {
+setProject(e.target.value);
+};
+////////////////// requst to filter projects to dropdown select
+const [options, setOptions] = useState([]);
+useEffect(() => {
+const projects = async () => {
+    await axios.get(`${api}/morgan2bathaa/projects`).then((res) => {
+    setOptions(res.data);
+    });
+};
+projects();
+}, []);
+//////////////////////////////
+//////////////////////////////////////////// start of request
+const [countDayOne, setCountDayOne] = useState([]);
+useEffect(() => {
+const countMasri = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/dayone?value=${project}`).then((response) => {
+        console.log("project is :",project)
+    setCountDayOne(response.data.length);
+    });
+};
+countMasri();
+}, [project]);
+const [countClearDayOne, setCountClearDayOne] = useState([]);
+useEffect(() => {
+const countYamani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/dayone1?value=${project}`).then((response) => {
+    setCountClearDayOne(response.data.length);
+    });
+};
+countYamani();
+}, [project]);
+const [countInDay2, setCountInDay2] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/indaytwo?value=${project}`).then((response) => {
+    setCountInDay2(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayTwo, setCountClearDayTwo] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/cleardaytwo?value=${project}`).then((response) => {
+    setCountClearDayTwo(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay3, setCountInDay3] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday3?value=${project}`).then((response) => {
+    setCountInDay3(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay3, setCountClearDay3] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday3?value=${project}`).then((response) => {
+    setCountClearDay3(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay4, setCountInDay4] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday4?value=${project}`).then((response) => {
+    setCountInDay4(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay4, setCountClearDay4] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday4?value=${project}`).then((response) => {
+    setCountClearDay4(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay5, setCountInDay5] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday5?value=${project}`).then((response) => {
+    setCountInDay5(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay5, setCountClearDay5] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday5?value=${project}`).then((response) => {
+    setCountClearDay5(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay6, setCountInDay6] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday6?value=${project}`).then((response) => {
+    setCountInDay6(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay6, setCountClearDay6] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday6?value=${project}`).then((response) => {
+    setCountClearDay6(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay7, setCountInDay7] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday7?value=${project}`).then((response) => {
+    setCountInDay7(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay7, setCountClearDay7] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday7?value=${project}`).then((response) => {
+    setCountClearDay7(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay8, setCountInDay8] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday8?value=${project}`).then((response) => {
+    setCountInDay8(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay8, setCountClearDay8] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday8?value=${project}`).then((response) => {
+    setCountClearDay8(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay9, setCountInDay9] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday9?value=${project}`).then((response) => {
+    setCountInDay9(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay9, setCountClearDay9] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday9?value=${project}`).then((response) => {
+    setCountClearDay9(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay10, setCountInDay10] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday10?value=${project}`).then((response) => {
+    setCountInDay10(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay10, setCountClearDay10] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday10?value=${project}`).then((response) => {
+    setCountClearDay10(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay11, setCountInDay11] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday11?value=${project}`).then((response) => {
+    setCountInDay11(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay11, setCountClearDay11] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday11?value=${project}`).then((response) => {
+    setCountClearDay11(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay12, setCountInDay12] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday12?value=${project}`).then((response) => {
+    setCountInDay12(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay12, setCountClearDay12] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday12?value=${project}`).then((response) => {
+    setCountClearDay12(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay13, setCountInDay13] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday13?value=${project}`).then((response) => {
+    setCountInDay13(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay13, setCountClearDay13] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday13?value=${project}`).then((response) => {
+    setCountClearDay13(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay14, setCountInDay14] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday14?value=${project}`).then((response) => {
+    setCountInDay14(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay14, setCountClearDay14] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday14?value=${project}`).then((response) => {
+    setCountClearDay14(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay15, setCountInDay15] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday15?value=${project}`).then((response) => {
+    setCountInDay15(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay15, setCountClearDay15] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday15?value=${project}`).then((response) => {
+    setCountClearDay15(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay16, setCountInDay16] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday16?value=${project}`).then((response) => {
+    setCountInDay16(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay16, setCountClearDay16] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday16?value=${project}`).then((response) => {
+    setCountClearDay16(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay17, setCountInDay17] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday17?value=${project}`).then((response) => {
+    setCountInDay17(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay17, setCountClearDay17] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday17?value=${project}`).then((response) => {
+    setCountClearDay17(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay18, setCountInDay18] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday18?value=${project}`).then((response) => {
+    setCountInDay18(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay18, setCountClearDay18] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday18?value=${project}`).then((response) => {
+    setCountClearDay18(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay19, setCountInDay19] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday19?value=${project}`).then((response) => {
+    setCountInDay19(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay19, setCountClearDay19] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday19?value=${project}`).then((response) => {
+    setCountClearDay19(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay20, setCountInDay20] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday20?value=${project}`).then((response) => {
+    setCountInDay20(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay20, setCountClearDay20] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday20?value=${project}`).then((response) => {
+    setCountClearDay20(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay21, setCountInDay21] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday21?value=${project}`).then((response) => {
+    setCountInDay21(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay21, setCountClearDay21] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday21?value=${project}`).then((response) => {
+    setCountClearDay21(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay22, setCountInDay22] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday22?value=${project}`).then((response) => {
+    setCountInDay22(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay22, setCountClearDay22] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday22?value=${project}`).then((response) => {
+    setCountClearDay22(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay23, setCountInDay23] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday23?value=${project}`).then((response) => {
+    setCountInDay23(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay23, setCountClearDay23] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday23?value=${project}`).then((response) => {
+    setCountClearDay23(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay24, setCountInDay24] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday24?value=${project}`).then((response) => {
+    setCountInDay24(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay24, setCountClearDay24] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday24?value=${project}`).then((response) => {
+    setCountClearDay24(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay25, setCountInDay25] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday25?value=${project}`).then((response) => {
+    setCountInDay25(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay25, setCountClearDay25] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday25?value=${project}`).then((response) => {
+    setCountClearDay25(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay26, setCountInDay26] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday26?value=${project}`).then((response) => {
+    setCountInDay26(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay26, setCountClearDay26] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday26?value=${project}`).then((response) => {
+    setCountClearDay26(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay27, setCountInDay27] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday27?value=${project}`).then((response) => {
+    setCountInDay27(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay27, setCountClearDay27] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday27?value=${project}`).then((response) => {
+    setCountClearDay27(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay28, setCountInDay28] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday28?value=${project}`).then((response) => {
+    setCountInDay28(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay28, setCountClearDay28] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday28?value=${project}`).then((response) => {
+    setCountClearDay28(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay29, setCountInDay29] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday29?value=${project}`).then((response) => {
+    setCountInDay29(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+console.log(countInDay29);
+const [countClearDay29, setCountClearDay29] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday29?value=${project}`).then((response) => {
+    setCountClearDay29(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+console.log(countClearDay29);
+const [countInDay30, setCountInDay30] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday30?value=${project}`).then((response) => {
+    setCountInDay30(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDay30, setCountClearDay30] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/clearday30?value=${project}`).then((response) => {
+    setCountClearDay30(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDay31, setCountInDay31] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/inday31?value=${project}`).then((response) => {
+    setCountInDay31(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+console.log(countInDay31);
+// const [countClearDay31, setCountClearDay31] = useState([]);
+// useEffect(() => {
+//     const countIndonesi = async () => {
+//         await axios.get(`${api}/morgan2bathaa/dues/clearday31?value=${project}`).then((response) => {
+//             if (monthDays === 30 || monthDays === 28){
+//                 setCountClearDay31(0)
+//             }else {
+//                 setCountClearDay31(response.data.length)
+//             }
+//         });
+//     }
+//     countIndonesi()
+// }
+//     , [project]);
+//////////////////////////////////////////////////////// End of calculate
+////////////////////////////////////////////////////// food Dues
+const [countDayFoodOne, setCountDayFoodOne] = useState([]);
+useEffect(() => {
+const countMasri = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/dayone?value=${project}`).then((response) => {
+    setCountDayFoodOne(response.data.length);
+    });
+};
+countMasri();
+}, [project]);
+const [countClearDayFoodOne, setCountClearDayFoodOne] = useState([]);
+useEffect(() => {
+const countYamani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/dayone1?value=${project}`).then((response) => {
+    setCountClearDayFoodOne(response.data.length);
+    });
+};
+countYamani();
+}, [project]);
+const [countInDayFood2, setCountInDayFood2] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/indaytwo?value=${project}`).then((response) => {
+    setCountInDayFood2(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFoodTwo, setCountClearDayFoodTwo] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/cleardaytwo?value=${project}`)
+    .then((response) => {
+        setCountClearDayFoodTwo(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood3, setCountInDayFood3] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday3?value=${project}`).then((response) => {
+    setCountInDayFood3(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood3, setCountClearDayFood3] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday3?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood3(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood4, setCountInDayFood4] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday4?value=${project}`).then((response) => {
+    setCountInDayFood4(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood4, setCountClearDayFood4] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday4?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood4(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood5, setCountInDayFood5] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday5?value=${project}`).then((response) => {
+    setCountInDayFood5(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood5, setCountClearDayFood5] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday5?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood5(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood6, setCountInDayFood6] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday6?value=${project}`).then((response) => {
+    setCountInDayFood6(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood6, setCountClearDayFood6] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday6?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood6(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood7, setCountInDayFood7] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday7?value=${project}`).then((response) => {
+    setCountInDayFood7(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood7, setCountClearDayFood7] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday7?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood7(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood8, setCountInDayFood8] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday8?value=${project}`).then((response) => {
+    setCountInDayFood8(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood8, setCountClearDayFood8] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday8?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood8(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood9, setCountInDayFood9] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday9?value=${project}`).then((response) => {
+    setCountInDayFood9(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood9, setCountClearDayFood9] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday9?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood9(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood10, setCountInDayFood10] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday10?value=${project}`).then((response) => {
+    setCountInDayFood10(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood10, setCountClearDayFood10] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday10?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood10(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood11, setCountInDayFood11] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday11?value=${project}`).then((response) => {
+    setCountInDayFood11(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood11, setCountClearDayFood11] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday11?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood11(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood12, setCountInDayFood12] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday12?value=${project}`).then((response) => {
+    setCountInDayFood12(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood12, setCountClearDayFood12] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday12?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood12(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood13, setCountInDayFood13] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday13?value=${project}`).then((response) => {
+    setCountInDayFood13(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood13, setCountClearDayFood13] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday13?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood13(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood14, setCountInDayFood14] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday14?value=${project}`).then((response) => {
+    setCountInDayFood14(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood14, setCountClearDayFood14] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday14?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood14(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood15, setCountInDayFood15] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday15?value=${project}`).then((response) => {
+    setCountInDayFood15(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood15, setCountClearDayFood15] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday15?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood15(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood16, setCountInDayFood16] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday16?value=${project}`).then((response) => {
+    setCountInDayFood16(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood16, setCountClearDayFood16] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday16?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood16(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood17, setCountInDayFood17] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday17?value=${project}`).then((response) => {
+    setCountInDayFood17(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood17, setCountClearDayFood17] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday17?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood17(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood18, setCountInDayFood18] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday18?value=${project}`).then((response) => {
+    setCountInDayFood18(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood18, setCountClearDayFood18] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday18?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood18(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood19, setCountInDayFood19] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday19?value=${project}`).then((response) => {
+    setCountInDayFood19(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood19, setCountClearDayFood19] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday19?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood19(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood20, setCountInDayFood20] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday20?value=${project}`).then((response) => {
+    setCountInDayFood20(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood20, setCountClearDayFood20] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday20?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood20(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood21, setCountInDayFood21] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday21?value=${project}`).then((response) => {
+    setCountInDayFood21(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood21, setCountClearDayFood21] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday21?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood21(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood22, setCountInDayFood22] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday22?value=${project}`).then((response) => {
+    setCountInDayFood22(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood22, setCountClearDayFood22] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday22?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood22(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood23, setCountInDayFood23] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday23?value=${project}`).then((response) => {
+    setCountInDayFood23(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood23, setCountClearDayFood23] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday23?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood23(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood24, setCountInDayFood24] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday24?value=${project}`).then((response) => {
+    setCountInDayFood24(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood24, setCountClearDayFood24] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday24?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood24(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood25, setCountInDayFood25] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday25?value=${project}`).then((response) => {
+    setCountInDayFood25(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood25, setCountClearDayFood25] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday25?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood25(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood26, setCountInDayFood26] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday26?value=${project}`).then((response) => {
+    setCountInDayFood26(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood26, setCountClearDayFood26] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday26?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood26(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood27, setCountInDayFood27] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday27?value=${project}`).then((response) => {
+    setCountInDayFood27(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood27, setCountClearDayFood27] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday27?value=${project}`)
+   .then((response) => {
+        setCountClearDayFood27(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood28, setCountInDayFood28] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday28?value=${project}`).then((response) => {
+    setCountInDayFood28(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood28, setCountClearDayFood28] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday28?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood28(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood29, setCountInDayFood29] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday29?value=${project}`).then((response) => {
+    setCountInDayFood29(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood29, setCountClearDayFood29] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday29?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood29(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood30, setCountInDayFood30] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday30?value=${project}`).then((response) => {
+    setCountInDayFood30(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+const [countClearDayFood30, setCountClearDayFood30] = useState([]);
+useEffect(() => {
+const countIndonesi = async () => {
+    await axios
+    .get(`${api}/morgan2bathaa/dues/food/clearday30?value=${project}`)
+    .then((response) => {
+        setCountClearDayFood30(response.data.length);
+    });
+};
+countIndonesi();
+}, [project]);
+const [countInDayFood31, setCountInDayFood31] = useState([]);
+useEffect(() => {
+const countPakistani = async () => {
+    await axios.get(`${api}/morgan2bathaa/dues/food/inday31?value=${project}`).then((response) => {
+    setCountInDayFood31(response.data.length);
+    });
+};
+countPakistani();
+}, [project]);
+// const [countClearDayFood31, setCountClearDayFood31] = useState([]);
+// useEffect(() => {
+//     const countIndonesi = async () => {
+//         await axios.get(`${api}/morgan2bathaa/dues/food/clearday31?value=${project}`).then((response) => {
+//             if (monthDays === 30 || monthDays === 28){
+//                 setCountClearDayFood31(0)
+//             }else {
+//                 setCountClearDayFood31(response.data.length)
+//           project  }
+//         });
+//     }
+//     countIndonesi()
+// }
+//     , []);
+const countTotalDayFoodTwo =
+countDayFoodOne + countInDayFood2 - countClearDayFoodOne;
+const countTotalDayFood3 =
+countTotalDayFoodTwo + countInDayFood3 - countClearDayFoodTwo;
+const countTotalDayFood4 =
+countTotalDayFood3 + countInDayFood4 - countClearDayFood3;
+const countTotalDayFood5 =
+countTotalDayFood4 + countInDayFood5 - countClearDayFood4;
+const countTotalDayFood6 =
+countTotalDayFood5 + countInDayFood6 - countClearDayFood5;
+const countTotalDayFood7 =
+countTotalDayFood6 + countInDayFood7 - countClearDayFood6;
+const countTotalDayFood8 =
+countTotalDayFood7 + countInDayFood8 - countClearDayFood7;
+const countTotalDayFood9 =
+countTotalDayFood8 + countInDayFood9 - countClearDayFood8;
+const countTotalDayFood10 =
+countTotalDayFood9 + countInDayFood10 - countClearDayFood9;
+const countTotalDayFood11 =
+countTotalDayFood10 + countInDayFood11 - countClearDayFood10;
+const countTotalDayFood12 =
+countTotalDayFood11 + countInDayFood12 - countClearDayFood11;
+const countTotalDayFood13 =
+countTotalDayFood12 + countInDayFood13 - countClearDayFood12;
+const countTotalDayFood14 =
+countTotalDayFood13 + countInDayFood14 - countClearDayFood13;
+const countTotalDayFood15 =
+countTotalDayFood14 + countInDayFood15 - countClearDayFood14;
+const countTotalDayFood16 =
+countTotalDayFood15 + countInDayFood16 - countClearDayFood15;
+const countTotalDayFood17 =
+countTotalDayFood16 + countInDayFood17 - countClearDayFood16;
+const countTotalDayFood18 =
+countTotalDayFood17 + countInDayFood18 - countClearDayFood17;
+const countTotalDayFood19 =
+countTotalDayFood18 + countInDayFood19 - countClearDayFood18;
+const countTotalDayFood20 =
+countTotalDayFood19 + countInDayFood20 - countClearDayFood19;
+const countTotalDayFood21 =
+countTotalDayFood20 + countInDayFood21 - countClearDayFood20;
+const countTotalDayFood22 =
+countTotalDayFood21 + countInDayFood22 - countClearDayFood21;
+const countTotalDayFood23 =
+countTotalDayFood22 + countInDayFood23 - countClearDayFood22;
+const countTotalDayFood24 =
+countTotalDayFood23 + countInDayFood24 - countClearDayFood23;
+const countTotalDayFood25 =
+countTotalDayFood24 + countInDayFood25 - countClearDayFood24;
+const countTotalDayFood26 =
+countTotalDayFood25 + countInDayFood26 - countClearDayFood25;
+const countTotalDayFood27 =
+countTotalDayFood26 + countInDayFood27 - countClearDayFood26;
+const countTotalDayFood28 =
+countTotalDayFood27 + countInDayFood28 - countClearDayFood27;
+const countTotalDayFood29 =
+countTotalDayFood28 + countInDayFood29 - countClearDayFood28;
+const countTotalDayFood30 =
+countTotalDayFood29 + countInDayFood30 - countClearDayFood29;
+const countTotalDayFood31 =
+countTotalDayFood30 + countInDayFood31 - countClearDayFood30;
+
+const GrandTotalFood28 =
+countDayFoodOne +
+countTotalDayFoodTwo +
+countTotalDayFood3 +
+countTotalDayFood4 +
+countTotalDayFood5 +
+countTotalDayFood6 +
+countTotalDayFood7 +
+countTotalDayFood8 +
+countTotalDayFood9 +
+countTotalDayFood10 +
+countTotalDayFood11 +
+countTotalDayFood12 +
+countTotalDayFood13 +
+countTotalDayFood14 +
+countTotalDayFood15 +
+countTotalDayFood16 +
+countTotalDayFood17 +
+countTotalDayFood18 +
+countTotalDayFood19 +
+countTotalDayFood20 +
+countTotalDayFood21 +
+countTotalDayFood22 +
+countTotalDayFood23 +
+countTotalDayFood24 +
+countTotalDayFood25 +
+countTotalDayFood26 +
+countTotalDayFood27 +
+countTotalDayFood28;
+
+const GrandTotalFood30 =
+countDayFoodOne +
+countTotalDayFoodTwo +
+countTotalDayFood3 +
+countTotalDayFood4 +
+countTotalDayFood5 +
+countTotalDayFood6 +
+countTotalDayFood7 +
+countTotalDayFood8 +
+countTotalDayFood9 +
+countTotalDayFood10 +
+countTotalDayFood11 +
+countTotalDayFood12 +
+countTotalDayFood13 +
+countTotalDayFood14 +
+countTotalDayFood15 +
+countTotalDayFood16 +
+countTotalDayFood17 +
+countTotalDayFood18 +
+countTotalDayFood19 +
+countTotalDayFood20 +
+countTotalDayFood21 +
+countTotalDayFood22 +
+countTotalDayFood23 +
+countTotalDayFood24 +
+countTotalDayFood25 +
+countTotalDayFood26 +
+countTotalDayFood27 +
+countTotalDayFood28 +
+countTotalDayFood29 +
+countTotalDayFood30;
+
+const GrandTotalFood31 =
+countDayFoodOne +
+countTotalDayFoodTwo +
+countTotalDayFood3 +
+countTotalDayFood4 +
+countTotalDayFood5 +
+countTotalDayFood6 +
+countTotalDayFood7 +
+countTotalDayFood8 +
+countTotalDayFood9 +
+countTotalDayFood10 +
+countTotalDayFood11 +
+countTotalDayFood12 +
+countTotalDayFood13 +
+countTotalDayFood14 +
+countTotalDayFood15 +
+countTotalDayFood16 +
+countTotalDayFood17 +
+countTotalDayFood18 +
+countTotalDayFood19 +
+countTotalDayFood20 +
+countTotalDayFood21 +
+countTotalDayFood22 +
+countTotalDayFood23 +
+countTotalDayFood24 +
+countTotalDayFood25 +
+countTotalDayFood26 +
+countTotalDayFood27 +
+countTotalDayFood28 +
+countTotalDayFood29 +
+countTotalDayFood30 +
+countTotalDayFood31;
+
+////////////////////////// food Duse
+////////////////////////// Case 3
+const countTotalDayTwo = countDayOne + countInDay2 - countClearDayOne;
+const countTotalDay3 = countTotalDayTwo + countInDay3 - countClearDayTwo;
+const countTotalDay4 = countTotalDay3 + countInDay4 - countClearDay3;
+const countTotalDay5 = countTotalDay4 + countInDay5 - countClearDay4;
+const countTotalDay6 = countTotalDay5 + countInDay6 - countClearDay5;
+const countTotalDay7 = countTotalDay6 + countInDay7 - countClearDay6;
+const countTotalDay8 = countTotalDay7 + countInDay8 - countClearDay7;
+const countTotalDay9 = countTotalDay8 + countInDay9 - countClearDay8;
+const countTotalDay10 = countTotalDay9 + countInDay10 - countClearDay9;
+const countTotalDay11 = countTotalDay10 + countInDay11 - countClearDay10;
+const countTotalDay12 = countTotalDay11 + countInDay12 - countClearDay11;
+const countTotalDay13 = countTotalDay12 + countInDay13 - countClearDay12;
+const countTotalDay14 = countTotalDay13 + countInDay14 - countClearDay13;
+const countTotalDay15 = countTotalDay14 + countInDay15 - countClearDay14;
+const countTotalDay16 = countTotalDay15 + countInDay16 - countClearDay15;
+const countTotalDay17 = countTotalDay16 + countInDay17 - countClearDay16;
+const countTotalDay18 = countTotalDay17 + countInDay18 - countClearDay17;
+const countTotalDay19 = countTotalDay18 + countInDay19 - countClearDay18;
+const countTotalDay20 = countTotalDay19 + countInDay20 - countClearDay19;
+const countTotalDay21 = countTotalDay20 + countInDay21 - countClearDay20;
+const countTotalDay22 = countTotalDay21 + countInDay22 - countClearDay21;
+const countTotalDay23 = countTotalDay22 + countInDay23 - countClearDay22;
+const countTotalDay24 = countTotalDay23 + countInDay24 - countClearDay23;
+const countTotalDay25 = countTotalDay24 + countInDay25 - countClearDay24;
+const countTotalDay26 = countTotalDay25 + countInDay26 - countClearDay25;
+const countTotalDay27 = countTotalDay26 + countInDay27 - countClearDay26;
+const countTotalDay28 = countTotalDay27 + countInDay28 - countClearDay27;
+const countTotalDay29 = countTotalDay28 + countInDay29 - countClearDay28;
+const countTotalDay30 = countTotalDay29 + countInDay30 - countClearDay29;
+const countTotalDay31 = countTotalDay30 + countInDay31 - countClearDay30;
+
+const GrandTotal28 =
+countDayOne +
+countTotalDayTwo +
+countTotalDay3 +
+countTotalDay4 +
+countTotalDay5 +
+countTotalDay6 +
+countTotalDay7 +
+countTotalDay8 +
+countTotalDay9 +
+countTotalDay10 +
+countTotalDay11 +
+countTotalDay12 +
+countTotalDay13 +
+countTotalDay14 +
+countTotalDay15 +
+countTotalDay16 +
+countTotalDay17 +
+countTotalDay18 +
+countTotalDay19 +
+countTotalDay20 +
+countTotalDay21 +
+countTotalDay22 +
+countTotalDay23 +
+countTotalDay24 +
+countTotalDay25 +
+countTotalDay26 +
+countTotalDay27 +
+countTotalDay28;
+
+const GrandTotal30 =
+countDayOne +
+countTotalDayTwo +
+countTotalDay3 +
+countTotalDay4 +
+countTotalDay5 +
+countTotalDay6 +
+countTotalDay7 +
+countTotalDay8 +
+countTotalDay9 +
+countTotalDay10 +
+countTotalDay11 +
+countTotalDay12 +
+countTotalDay13 +
+countTotalDay14 +
+countTotalDay15 +
+countTotalDay16 +
+countTotalDay17 +
+countTotalDay18 +
+countTotalDay19 +
+countTotalDay20 +
+countTotalDay21 +
+countTotalDay22 +
+countTotalDay23 +
+countTotalDay24 +
+countTotalDay25 +
+countTotalDay26 +
+countTotalDay27 +
+countTotalDay28 +
+countTotalDay29 +
+countTotalDay30;
+
+const GrandTotal31 =
+countDayOne +
+countTotalDayTwo +
+countTotalDay3 +
+countTotalDay4 +
+countTotalDay5 +
+countTotalDay6 +
+countTotalDay7 +
+countTotalDay8 +
+countTotalDay9 +
+countTotalDay10 +
+countTotalDay11 +
+countTotalDay12 +
+countTotalDay13 +
+countTotalDay14 +
+countTotalDay15 +
+countTotalDay16 +
+countTotalDay17 +
+countTotalDay18 +
+countTotalDay19 +
+countTotalDay20 +
+countTotalDay21 +
+countTotalDay22 +
+countTotalDay23 +
+countTotalDay24 +
+countTotalDay25 +
+countTotalDay26 +
+countTotalDay27 +
+countTotalDay28 +
+countTotalDay29 +
+countTotalDay30 +
+countTotalDay31;
+
+return (
+<div className="new1">
+    <div className="newContainer">
+    <div className="form" style={{ marginBottom: "10px" }}>
+        <h1>
+        فاتورة عمارة مرجان 2 بطحاء قريش لشهر {currentMonth} - {new Date().getFullYear()}{" "}
+        مشروع:{project}
+        </h1>
+        <Formik
+        initialValues={initalValues}
+        validationSchema={validationSchema}
+        >
+        <Field
+            as="select"
+            id="project"
+            name="project"
+            onChange={handleOnChange}
+            className="form-control col-md-4"
+            style={{
+            fontSize: "14px",
+            height: "40px",
+            width: "300px",
+            borderRadius: "10px",
+            }}
+        >
+            <option value="0">{project}</option>
+            {options.map((option, index) => (
+            <option key={index} value={option.project}>
+                {option.project}
+            </option>
+            ))}
+        </Field>
+        </Formik>
+    </div>
+    <div className="container" ref={ref}>
+    <br />
+    <div
+    className="pdf"
+    style={{ display: "flex", justifyContent: "space-between" }}
+    >
+    <img src={SBG} alt="" style={{ marginTop: "0px", padding: "0px" }} />
+    <span style={{ fontSize: "14px" }}>فاتورة عمارة مرجان 2 بطحاء قريش</span>
+    <div>
+        <span style={{ color: "teal", fontSize: "15px", alignSelf: "end" }}>
+        MONTH FROM : {firstDay} TO {lastDay}
+        </span>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <a href={`${api}/morgan2bathaa/invoicereport/api/file?value=${project}`}>
+            <svg
+            style={{ cursor: "pointer" }}
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="currentColor"
+            className="bi bi-cloud-download"
+            viewBox="0 0 16 16"
+            >
+            <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+            <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z" />
+            </svg>
+        </a>
+        <ReactToPdf
+            targetRef={ref}
+            filename="فاتورة عمارة مرجان 2 بطحاء قريش.pdf"
+            scale={0.7}
+        >
+            {({ toPdf }) => (
+            <svg
+                onClick={toPdf}
+                style={{ cursor: "pointer" }}
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-filetype-pdf"
+                viewBox="0 0 16 16"
+            >
+                <path
+                fillRule="evenodd"
+                d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"
+                />
+            </svg>
+            )}
+        </ReactToPdf>
+        </div>
+    </div>
+    </div>
+    <div className="invoice">
+    <div className="tables">
+        <MDBTable
+        bordered
+        borderColor="primary"
+        style={{
+            width: "50%",
+            height: "50%",
+            direction: "ltr",
+            alignItems: "left",
+        }}
+        >
+        <MDBTableBody align="left">
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Date AH
+            </th>
+            <td>
+                {new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
+                day: "numeric",
+                month: "long",
+                weekday: "long",
+                year: "numeric",
+                }).format(Date.now())}
+            </td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Date AD
+            </th>
+            <td>{new Date().toLocaleDateString()}</td>
+            </tr>
+        </MDBTableBody>
+        </MDBTable>
+        <MDBTable
+        bordered
+        borderColor="primary"
+        style={{ width: "70%", direction: "ltr", alignItems: "left" }}
+        >
+        <MDBTableBody align="left">
+            <tr>
+            <th scope="col" style={{ backgroundColor: `${background}` }}>
+                TAX NUMBER
+            </th>
+            <td
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                300167174900003
+            </td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Invoice No
+            </th>
+            <td>
+                MK-CR-{new Date().getMonth()}/{new Date().getFullYear()} -{" "}
+                {InvoiceNumber.next("005227")}
+            </td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Invoice Date
+            </th>
+            <td>{new Date().toLocaleDateString()}</td>
+            </tr>
+        </MDBTableBody>
+        </MDBTable>
+    </div>
+    <div className="tables">
+        <MDBTable
+        bordered
+        borderColor="primary"
+        style={{
+            width: "50%",
+            height: "50%",
+            direction: "ltr",
+            alignItems: "left",
+        }}
+        >
+        <MDBTableBody align="left">
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: "rgb(98, 195, 233)",
+                fontWeight: "bold",
+                }}
+            >
+                Subject
+            </th>
+            <td>مكة المكرمة</td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Campus Name
+            </th>
+            <td>عمارة مرجان 2 بطحاء قريش</td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="left">
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Project Name
+            </th>
+            <td>{project}</td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Project No{" "}
+            </th>
+            <td></td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="left">
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Benefeciary Name
+            </th>
+            <td style={{ fontWeight: "bold", color: "crimson" }}>
+                A.B.C.D
+            </td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Vendor Name
+            </th>
+            <td></td>
+            </tr>
+        </MDBTableBody>
+        </MDBTable>
+        <MDBTable
+        bordered
+        borderColor="primary"
+        style={{ width: "70%", direction: "ltr", alignItems: "left" }}
+        >
+        <MDBTableBody align="left">
+            <tr>
+            <th
+                scope="col"
+                colSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Housing Entry Date
+            </th>
+            <td>{firstDay}</td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                colSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Housing Exit Date
+            </th>
+            <td>{lastDay}</td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                colSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Total Period Of Housing Per Days
+            </th>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28
+                : monthDays === 30
+                ? GrandTotal30
+                : GrandTotal31}
+            </td>
+            </tr>
+            <tr>
+            <th
+                scope="col"
+                colSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Labor Monthly Average
+            </th>
+            <td>
+                {Math.floor(
+                monthDays === 28
+                    ? GrandTotal28 / monthDays
+                    : monthDays === 30
+                    ? GrandTotal30 / monthDays
+                    : GrandTotal31 / monthDays
+                )}
+            </td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="left">
+            <tr>
+            <th scope="col"></th>
+            <td
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Accommodation
+            </td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotal30 * 14
+                : GrandTotal31 * 14}
+            </td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="left">
+            <tr>
+            <th scope="col">Type Of Service Provided</th>
+            <td
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Transportation
+            </td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotal30 * 14
+                : GrandTotal31 * 14}
+            </td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="left">
+            <tr>
+            <th scope="col"></th>
+            <td
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Food
+            </td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28 * 16 + GrandTotalFood28 * 3
+                : monthDays === 30
+                ? GrandTotalFood30 * 16 + GrandTotalFood30 * 3
+                : GrandTotalFood31 * 16 + GrandTotalFood31 * 3}
+            </td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="center">
+            <tr>
+            <th
+                scope="col"
+                colSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontSize: "16px",
+                fontWeight: "bold",
+                }}
+            >
+                Invoice Total Amount
+            </th>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontSize: "16px",
+                fontWeight: "bold",
+                }}
+            >
+                {" "}
+                {monthDays === 28
+                ? GrandTotalFood28 * 16 +
+                    GrandTotal28 * 3 +
+                    GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotalFood30 * 16 +
+                    GrandTotal30 * 3 +
+                    GrandTotal30 * 14
+                : GrandTotalFood31 * 16 +
+                    GrandTotal31 * 3 +
+                    GrandTotal31 * 14}
+            </td>
+            </tr>
+        </MDBTableBody>
+        </MDBTable>
+    </div>
+    <div className="center">
+        <MDBTable
+        bordered
+        borderColor="primary"
+        style={{
+            width: "100%",
+            height: "50%",
+            padding: "0px",
+            direction: "ltr",
+            alignItems: "left",
+        }}
+        >
+        <MDBTableBody align="center">
+            <tr align="center" style={{ fontSize: "14px" }}>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                colSpan={4}
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Value Of Service Provided
+            </th>
+            </tr>
+            <tr align="center" style={{ fontSize: "14px" }}>
+            <th
+                style={{
+                backgroundColor: "white",
+                border: "0px #000",
+                borderStyle: "hidden solid solid hidden",
+                }}
+            ></th>
+            <th
+                colSpan={10}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                No.Of Labors Benefiting From The Services
+            </th>
+            <th
+                colSpan={4}
+                rowSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Accommodation
+            </th>
+            </tr>
+            <tr align="center" style={{ fontSize: "14px" }}>
+            <th
+                align="bottom"
+                rowSpan={2}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                border: "1px #333",
+                minWidth: "4rem",
+                verticalAlign: "middle",
+                }}
+            >
+                Day
+            </th>
+            <th
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+                colSpan={4}
+            >
+                Accommodation
+            </th>
+            <th
+                colSpan={3}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Transportation
+            </th>
+            <th
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+                colSpan={3}
+            >
+                Food
+            </th>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Eng.
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Forman
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+
+                whiteSpace: "pre-wrap",
+                }}
+            >
+                Labor in building
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+
+                whiteSpace: "pre-wrap",
+                }}
+            >
+                Labor in camps
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Eng.
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+
+                whiteSpace: "pre-wrap",
+                }}
+            >
+                Labor & Forman
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Extra
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Regular
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Packing
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Extra
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Service Type
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                No.
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                S.Rt
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Total SR
+            </td>
+            </tr>
+        </MDBTableBody>
+        <MDBTableBody align="center">
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 1
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countDayOne}</td>
+            <td>0</td>
+            <td>{countDayOne}</td>
+            <td>#</td>
+            <td>{countDayFoodOne}</td>
+            <td>{countDayFoodOne * 3}</td>
+            <td>#</td>
+            <td align="left">Eng.</td>
+            <td>0</td>
+            <td>45</td>
+            <td>0</td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 2
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDayTwo}</td>
+            <td>0</td>
+            <td>{countTotalDayTwo}</td>
+            <td>#</td>
+            <td>{countTotalDayFoodTwo}</td>
+            <td>{countTotalDayFoodTwo * 3}</td>
+            <td>#</td>
+            <td align="left">Forman</td>
+            <td>0</td>
+            <td>20</td>
+            <td>0</td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 3
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay3}</td>
+            <td>0</td>
+            <td>{countTotalDay3}</td>
+            <td>#</td>
+            <td>{countTotalDayFood3}</td>
+            <td>{countTotalDayFood3 * 3}</td>
+            <td>#</td>
+            <td
+                align="left"
+                style={{
+                whiteSpace: "pre-wrap",
+                fontSize: "13px",
+                }}
+            >
+                Labor in buiding
+            </td>
+            <td>0</td>
+            <td>16</td>
+            <td>0</td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 4
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay4}</td>
+            <td>0</td>
+            <td>{countTotalDay4}</td>
+            <td>#</td>
+            <td>{countTotalDayFood4}</td>
+            <td>{countTotalDayFood4 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ whiteSpace: "pre-wrap" }}>
+                Labor in camp
+            </td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28
+                : monthDays === 30
+                ? GrandTotal30
+                : GrandTotal31}
+            </td>
+            <td>14</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotal30 * 14
+                : GrandTotal31 * 14}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 5
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay5}</td>
+            <td>0</td>
+            <td>{countTotalDay5}</td>
+            <td>#</td>
+            <td>{countTotalDayFood5}</td>
+            <td>{countTotalDayFood5 * 3}</td>
+            <td>#</td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+                colSpan={3}
+            >
+                Total
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                {monthDays === 28
+                ? GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotal30 * 14
+                : GrandTotal31 * 14}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 6
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay6}</td>
+            <td>0</td>
+            <td>{countTotalDay6}</td>
+            <td>#</td>
+            <td>{countTotalDayFood6}</td>
+            <td>{countTotalDayFood6 * 3}</td>
+            <td>#</td>
+            <td
+                colSpan={4}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Transportation
+            </td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 7
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay7}</td>
+            <td>0</td>
+            <td>{countTotalDay7}</td>
+            <td>#</td>
+            <td>{countTotalDayFood7}</td>
+            <td>{countTotalDayFood7 * 3}</td>
+            <td>#</td>
+            <td align="left">Eng.</td>
+            <td>0</td>
+            <td>35</td>
+            <td>0</td>
+            </tr>
+            <tr style={{ fontSize: "13px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 8
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay8}</td>
+            <td>0</td>
+            <td>{countTotalDay8}</td>
+            <td>#</td>
+            <td>{countTotalDayFood8}</td>
+            <td>{countTotalDayFood8 * 3}</td>
+            <td>#</td>
+            <td align="left">Labor & Forman</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28
+                : monthDays === 30
+                ? GrandTotal30
+                : GrandTotal31}
+            </td>
+            <td>14</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotal30 * 14
+                : GrandTotal31 * 14}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "14px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 9
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay9}</td>
+            <td>0</td>
+            <td>{countTotalDay9}</td>
+            <td>#</td>
+            <td>{countTotalDayFood9}</td>
+            <td>{countTotalDayFood9 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ whiteSpace: "pre-wrap" }}>
+                Extra
+            </td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 10
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay10}</td>
+            <td>0</td>
+            <td>{countTotalDay10}</td>
+            <td>#</td>
+            <td>{countTotalDayFood10}</td>
+            <td>{countTotalDayFood10 * 3}</td>
+            <td>#</td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+                colSpan={3}
+            >
+                Total
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                {monthDays === 28
+                ? GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotal30 * 14
+                : GrandTotal31 * 14}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px" }}>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)}- 11
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay11}</td>
+            <td>0</td>
+            <td>{countTotalDay11}</td>
+            <td>#</td>
+            <td>{countTotalDayFood11}</td>
+            <td>{countTotalDayFood11 * 3}</td>
+            <td>#</td>
+            <td
+                colSpan={4}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Food
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 12
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay12}</td>
+            <td>0</td>
+            <td>{countTotalDay12}</td>
+            <td>#</td>
+            <td>{countTotalDayFood12}</td>
+            <td>{countTotalDayFood12 * 3}</td>
+            <td>#</td>
+            <td align="left">Regular</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28
+                : monthDays === 30
+                ? GrandTotalFood30
+                : GrandTotalFood31}
+            </td>
+            <td>16</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28 * 16
+                : monthDays === 30
+                ? GrandTotalFood30 * 16
+                : GrandTotalFood31 * 16}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 13
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay13}</td>
+            <td>0</td>
+            <td>{countTotalDay13}</td>
+            <td>#</td>
+            <td>{countTotalDayFood13}</td>
+            <td>{countTotalDayFood13 * 3}</td>
+            <td>#</td>
+            <td align="left">Packing</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28 * 3
+                : monthDays === 30
+                ? GrandTotalFood30 * 3
+                : GrandTotalFood31 * 3}
+            </td>
+            <td>1</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28 * 3
+                : monthDays === 30
+                ? GrandTotalFood30 * 3
+                : GrandTotalFood31 * 3}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 14
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay14}</td>
+            <td>0</td>
+            <td>{countTotalDay14}</td>
+            <td>#</td>
+            <td>{countTotalDayFood14}</td>
+            <td>{countTotalDayFood14 * 3}</td>
+            <td>#</td>
+            <td align="left">Extra</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 15
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay15}</td>
+            <td>0</td>
+            <td>{countTotalDay15}</td>
+            <td>#</td>
+            <td>{countTotalDayFood15}</td>
+            <td>{countTotalDayFood15 * 3}</td>
+            <td>#</td>
+            <td
+                colSpan={3}
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                Total
+            </td>
+            <td
+                style={{
+                backgroundColor: `${backgroundYellow}`,
+                fontWeight: "bold",
+                }}
+            >
+                {monthDays === 28
+                ? GrandTotalFood28 * 16 + GrandTotalFood28 * 3
+                : monthDays === 30
+                ? GrandTotalFood30 * 16 + GrandTotalFood30 * 3
+                : GrandTotalFood31 * 16 + GrandTotalFood31 * 3}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 16
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay16}</td>
+            <td>0</td>
+            <td>{countTotalDay16}</td>
+            <td>#</td>
+            <td>{countTotalDayFood16}</td>
+            <td>{countTotalDayFood16 * 3}</td>
+            <td>#</td>
+            <td
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                Grand Total
+            </td>
+            <td
+                colSpan={3}
+                style={{
+                backgroundColor: `${background}`,
+                fontWeight: "bold",
+                }}
+            >
+                {monthDays === 28
+                ? GrandTotalFood28 * 16 +
+                    GrandTotal28 * 3 +
+                    GrandTotal28 * 14
+                : monthDays === 30
+                ? GrandTotalFood30 * 16 +
+                    GrandTotal30 * 3 +
+                    GrandTotal30 * 14
+                : GrandTotalFood31 * 16 +
+                    GrandTotal31 * 3 +
+                    GrandTotal31 * 14}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 17
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay17}</td>
+            <td>0</td>
+            <td>{countTotalDay17}</td>
+            <td>#</td>
+            <td>{countTotalDayFood17}</td>
+            <td>{countTotalDayFood17 * 3}</td>
+            <td>#</td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 18
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay18}</td>
+            <td>0</td>
+            <td>{countTotalDay18}</td>
+            <td>#</td>
+            <td>{countTotalDayFood18}</td>
+            <td>{countTotalDayFood18 * 3}</td>
+            <td style={{ borderRight: "1px solid #333" }}>#</td>
+            <td
+                style={{
+                fontSize: "16px",
+                verticalAlign: "middle",
+                border: "hidden",
+                }}
+                colSpan={4}
+            >
+                Signature{" "}
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 19
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay19}</td>
+            <td>0</td>
+            <td>{countTotalDay19}</td>
+            <td>#</td>
+            <td>{countTotalDayFood19}</td>
+            <td>{countTotalDayFood19 * 3}</td>
+            <td>#</td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 20
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay20}</td>
+            <td>0</td>
+            <td>{countTotalDay20}</td>
+            <td>#</td>
+            <td>{countTotalDayFood20}</td>
+            <td>{countTotalDayFood20 * 3}</td>
+            <td>#</td>
+            <td
+                align="left"
+                style={{
+                border: "hidden",
+
+                whiteSpace: "pre-wrap",
+                }}
+            >
+                Prepared-By:
+            </td>
+            <td
+                align="center"
+                colSpan={3}
+                style={{ border: "hidden", fontSize: "14px" }}
+            >
+                حمدان الحداد
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 21
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay21}</td>
+            <td>0</td>
+            <td>{countTotalDay21}</td>
+            <td>#</td>
+            <td>{countTotalDayFood21}</td>
+            <td>{countTotalDayFood21 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                Signature
+            </td>
+            <td colSpan={3} style={{ border: "hidden" }}>
+                ..........................................
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 22
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay22}</td>
+            <td>0</td>
+            <td>{countTotalDay22}</td>
+            <td>#</td>
+            <td>{countTotalDayFood22}</td>
+            <td>{countTotalDayFood22 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                {" "}
+                Data Administrative :
+            </td>
+            <td colSpan={3} style={{ border: "hidden", fontSize: "14px" }}>
+                أ/هاني يماني
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 23
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay23}</td>
+            <td>0</td>
+            <td>{countTotalDay23}</td>
+            <td>#</td>
+            <td>{countTotalDayFood23}</td>
+            <td>{countTotalDayFood23 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                Signature
+            </td>
+            <td colSpan={3} style={{ border: "hidden" }}>
+                ..........................................
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "5px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)}- 24
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay24}</td>
+            <td>0</td>
+            <td>{countTotalDay24}</td>
+            <td>#</td>
+            <td>{countTotalDayFood24}</td>
+            <td>{countTotalDayFood24 * 3}</td>
+            <td>#</td>
+            <td
+                align="left"
+                style={{
+                border: "hidden",
+                fontSize: "13px",
+
+                wordWrap: "normal",
+                }}
+            >
+                {" "}
+                Camp Administrative :
+            </td>
+            <td colSpan={3} style={{ border: "hidden", fontSize: "14px" }}>
+                أ/محمد زيني
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "7px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 25
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay25}</td>
+            <td>0</td>
+            <td>{countTotalDay25}</td>
+            <td>#</td>
+            <td>{countTotalDayFood25}</td>
+            <td>{countTotalDayFood25 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                Signature
+            </td>
+            <td colSpan={3} style={{ border: "hidden" }}>
+                ..........................................
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "7px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 26
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay26}</td>
+            <td>0</td>
+            <td>{countTotalDay26}</td>
+            <td>#</td>
+            <td>{countTotalDayFood26}</td>
+            <td>{countTotalDayFood26 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                Project Administrative :
+            </td>
+            <td colSpan={3} style={{ border: "hidden", fontSize: "14px" }}>
+                أ/أحمد إسماعيل
+            </td>
+            </tr>
+            <tr>
+            <th scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 27
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay27}</td>
+            <td>0</td>
+            <td>{countTotalDay27}</td>
+            <td>#</td>
+            <td>{countTotalDayFood27}</td>
+            <td>{countTotalDayFood27 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                Signature
+            </td>
+            <td colSpan={3} style={{ border: "hidden" }}>
+                ..........................................
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "2px" }}>
+            <th style={{ fontSize: "13px", padding: "5px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 28
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{countTotalDay28}</td>
+            <td>0</td>
+            <td>{countTotalDay28}</td>
+            <td>#</td>
+            <td>{countTotalDayFood28}</td>
+            <td>{countTotalDayFood28 * 3}</td>
+            <td>#</td>
+            <td
+                align="left"
+                style={{
+                border: "hidden",
+                fontSize: "13px",
+                padding: "0",
+
+                wordWrap: "normal",
+                }}
+            >
+                {" "}
+                Project Manager :
+            </td>
+            <td colSpan={3} style={{ border: "hidden", fontSize: "14px" }}>
+                م/إسماعيل صالحة
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "5px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 29
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{monthDays === 28 ? 0 : countTotalDay29}</td>
+            <td>0</td>
+            <td>{monthDays === 28 ? 0 : countTotalDay29}</td>
+            <td>#</td>
+            <td>{monthDays === 28 ? 0 : countTotalDayFood29}</td>
+            <td>{monthDays === 28 ? 0 : countTotalDayFood29 * 3}</td>
+            <td>#</td>
+            <td align="left" style={{ border: "hidden" }}>
+                Signature
+            </td>
+            <td colSpan={3} style={{ border: "hidden" }}>
+                ..........................................
+            </td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "5px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 30
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{monthDays === 28 ? 0 : countTotalDay30}</td>
+            <td>0</td>
+            <td>{monthDays === 28 ? 0 : countTotalDay30}</td>
+            <td>#</td>
+            <td>{monthDays === 28 ? 0 : countTotalDayFood30}</td>
+            <td>{monthDays === 28 ? 0 : countTotalDayFood30 * 3}</td>
+            <td>#</td>
+            </tr>
+            <tr style={{ fontSize: "13px", padding: "5px" }}>
+            <th style={{ fontSize: "13px", padding: "5px" }} scope="col">
+                {getMonthShortName(new Date().getMonth() + 1)} - 31
+            </th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>
+                {monthDays === 28 || monthDays === 30 ? 0 : countTotalDay31}
+            </td>
+            <td>0</td>
+            <td>
+                {monthDays === 28 || monthDays === 30 ? 0 : countTotalDay31}
+            </td>
+            <td>#</td>
+            <td>
+                {monthDays === 28 || monthDays === 30
+                ? 0
+                : countTotalDayFood31}
+            </td>
+            <td>
+                {monthDays === 28 || monthDays === 30
+                ? 0
+                : countTotalDayFood31 * 3}
+            </td>
+            <td>#</td>
+            <td colSpan={4} style={{ border: "hidden" }}></td>
+            </tr>
+            <tr
+            style={{ backgroundColor: `${background}`, fontWeight: "bold" }}
+            >
+            <th scope="col">TOTAL</th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28
+                : monthDays === 30
+                ? GrandTotal30
+                : GrandTotal31}
+            </td>
+            <td>0</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotal28
+                : monthDays === 30
+                ? GrandTotal30
+                : GrandTotal31}
+            </td>
+            <td>#</td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28
+                : monthDays === 30
+                ? GrandTotalFood30
+                : GrandTotalFood31}
+            </td>
+            <td>
+                {monthDays === 28
+                ? GrandTotalFood28 * 3
+                : monthDays === 30
+                ? GrandTotalFood30 * 3
+                : GrandTotalFood31 * 3}
+            </td>
+            <td>#</td>
+            <td
+                colSpan={4}
+                style={{ border: "hidden", backgroundColor: "white" }}
+            ></td>
+            </tr>
+        </MDBTableBody>
+        </MDBTable>
+        <p style={{ fontSize: "16px", height: "20px", color: "crimson" }}>
+        إذا لم يصلنا ردكم خلال سبعة أيام من تاريخ الاستلام يكون ذلك بما هو
+        مسجل بالمستخلص.
+        </p>
+    </div>
+    </div>
+</div>
+    </div>
+</div>
+);
+}
+export default InvoiceReport;

@@ -2,8 +2,11 @@ import "./Sidebar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import useAuth from '../../hooks/useAuth'
 
 const Sidebar = () => {
+  const { username, isManager, isAdmin } = useAuth()
+
   const { dispatch } = useContext(DarkModeContext);
   const navigate = useNavigate();
   function handleLogOut() {
@@ -26,24 +29,6 @@ const Sidebar = () => {
             </Link>
           </li>
           <p className="title">السكنات :</p>
-          <Link to="/dashboard/alameia" style={{ textDecoration: "none" }}>
-            <li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-list"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-                />
-              </svg>
-              <span>العالمية</span>
-            </li>
-          </Link>
           <Link to="/dashboard/haramain" style={{ textDecoration: "none" }}>
             <li>
               <svg
@@ -60,6 +45,24 @@ const Sidebar = () => {
                 />
               </svg>
               <span>الحرمين</span>
+            </li>
+          </Link>
+          <Link to="/dashboard/alameia" style={{ textDecoration: "none" }}>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-list"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                />
+              </svg>
+              <span>العالمية</span>
             </li>
           </Link>
           <Link to="/dashboard/ewaa1" style={{ textDecoration: "none" }}>
@@ -116,31 +119,12 @@ const Sidebar = () => {
               <span>العمائر</span>
             </li>
           </Link>
-          <p className="title">المستخلصات :</p>
-          <Link
-            to="/dashboard/reportduealameia"
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-file-earmark-bar-graph"
-                viewBox="0 0 16 16"
-              >
-                <path d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
-                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-              </svg>
-              <span>العالمية</span>
-            </li>
-          </Link>
+          {(isManager || isAdmin) &&<p className="title">المستخلصات :</p>}
           <Link
             to="/dashboard/reportdueharamain"
             style={{ textDecoration: "none" }}
           >
-            <li>
+            {(isManager || isAdmin) &&<li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -153,13 +137,32 @@ const Sidebar = () => {
                 <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
               </svg>
               <span>الحرمين</span>
-            </li>
+            </li>}
+          </Link>
+          <Link
+            to="/dashboard/reportduealameia"
+            style={{ textDecoration: "none" }}
+          >
+            {(isManager || isAdmin) &&<li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-file-earmark-bar-graph"
+                viewBox="0 0 16 16"
+              >
+                <path d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
+                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+              </svg>
+              <span>العالمية</span>
+            </li>}
           </Link>
           <Link
             to="/dashboard/reportdueewaa"
             style={{ textDecoration: "none" }}
           >
-            <li>
+            {(isManager || isAdmin) &&<li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -172,13 +175,13 @@ const Sidebar = () => {
                 <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
               </svg>
               <span>إيواء 1</span>
-            </li>
+            </li>}
           </Link>
           <Link
             to="/dashboard/reportdueewaab"
             style={{ textDecoration: "none" }}
           >
-            <li>
+            {(isManager || isAdmin) &&<li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -191,9 +194,25 @@ const Sidebar = () => {
                 <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
               </svg>
               <span>إيواء 2</span>
-            </li>
-            <p className="title">خدمات :</p>
+            </li>}
           </Link>
+          <Link to="/dashboard/buildings/invoices" style={{ textDecoration: "none" }}>
+          {(isManager || isAdmin) &&<li>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-file-earmark-bar-graph"
+                viewBox="0 0 16 16"
+              >
+                <path d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
+                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+              </svg>
+              <span>العمائر</span>
+            </li>}
+          </Link>
+          <p className="title">خدمات :</p>
           <Link to="/dashboard/alameia/food" style={{ textDecoration: "none" }}>
             <li>
               <svg
@@ -244,9 +263,9 @@ const Sidebar = () => {
               <span>الصيانة</span>
             </li>
           </Link>
-          <p className="title">مستخدم</p>
+          {(isManager || isAdmin) &&<p className="title">مستخدم</p>}
           <Link to="/dashboard/users">
-            <li>
+          {(isManager || isAdmin) &&<li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -258,7 +277,7 @@ const Sidebar = () => {
                 <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
               </svg>
               <span>المستخدمين</span>
-            </li>
+            </li>}
           </Link>
           <li>
             <svg

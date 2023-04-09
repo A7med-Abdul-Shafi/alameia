@@ -1,8 +1,10 @@
 import "./Navbar.scss";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import useAuth from '../../hooks/useAuth'
 
 const Navbar = () => {
+  const { username } = useAuth()
   const { dispatch } = useContext(DarkModeContext);
   return (
     <div
@@ -80,6 +82,7 @@ const Navbar = () => {
               />
             </svg>
           </div>
+          <h5>{username}</h5>
           <div className="item">
             <img
               src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"

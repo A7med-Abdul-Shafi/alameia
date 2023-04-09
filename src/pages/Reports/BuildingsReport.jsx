@@ -7,7 +7,7 @@ const EwaabReport = () => {
     return (
         <div className="list">
         <Sidebar/>
-        <div className="listContainer">
+        <div className="listContainer">    
             <Navbar/>
             <BuildingsTab/>
         </div>

@@ -4,7 +4,7 @@
   display: flex;
   align-items: center !important;
   font-size: 14px;
-  color: #555;
+  color: #111;
   justify-content: center;
   background-color: #0d6efd;
   position: fixed;
@@ -46,6 +46,9 @@
           }        
         }
       }
+    }
+    h5 {
+      margin-right: 10px;
     }
     .items {
       display: flex;

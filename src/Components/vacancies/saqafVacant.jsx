@@ -128,7 +128,7 @@ const SaqafVacant = (props) => {
           <h5>فراغات السكن :</h5>
           <a
             style={{ fontSize: "13px" }}
-            href={`${url}/alameiavacant/file`}
+            href={`${url}/saqafvacant/file`}
             className="btn btn-info"
             role="button"
           >

@@ -1,7 +1,7 @@
 {
   "name": "sbg-makkah-camps",
   "version": "0.1.0",
-  "homepage":"/",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.17.9",
@@ -56,8 +56,7 @@
   },
   "scripts": {
     "start": "react-scripts --max_old_space_size=24576 start",
-    "predeploy": "npm run build",
-    "build": "react-scripts --max_old_space_size=24576 build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

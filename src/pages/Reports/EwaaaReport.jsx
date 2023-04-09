@@ -1,15 +1,15 @@
 import "./style.scss";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import InvoiceReport from "../../Components/reports/Ewaaa/InvoiceReport";
+import InvoiceEwaaa from "../../Components/reports/Haramain2/InvoiceEwaaa";   
 
 const EwaaaReport = () => {
-    return (
-        <div className="list">
+    return ( 
+        <div className="list">   
         <Sidebar/>
         <div className="listContainer">
             <Navbar/>
-            <InvoiceReport/>
+            <InvoiceEwaaa/>
         </div>
         </div>
     )

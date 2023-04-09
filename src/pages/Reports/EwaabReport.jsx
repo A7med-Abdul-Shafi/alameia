@@ -1,7 +1,7 @@
 import "./style.scss";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import InvoiceReport from "../../Components/reports/Ewaab/InvoiceReport";
+import InvoiceEwaab from "../../Components/reports/Haramain2/InvoiceEwaab";
 
 const EwaabReport = () => {
     return (
@@ -9,7 +9,7 @@ const EwaabReport = () => {
         <Sidebar/>
         <div className="listContainer">
             <Navbar/>
-            <InvoiceReport/>
+            <InvoiceEwaab/>
         </div>
         </div>
     )

@@ -7,10 +7,10 @@ import api from "../../customApi";
 
 function EditHaramain() {
   function Loading() {
-    return <div className="spinner" />;
+    return <div className="spinner" />
   }
   const validation = yup.object().shape({
-    emp_no: yup.number().required("أدخل الرقم الوظيفي"),
+    emp_no: yup.string().required("أدخل الرقم الوظيفي"),
     name: yup.string().required("أدخل الإسم "),
     project: yup.string().required("أدخل المشروع "),
     nationality: yup.string().required("أدخل الجنسية "),
@@ -34,8 +34,8 @@ function EditHaramain() {
   const [room_no, setRoom_no] = useState(data[0]?.room_no);
   const [coupon, setCoupon] = useState(data[0]?.coupon);
   const [in_date, setIn_date] = useState(data[0]?.in_date);
-  const [in_reason, setIn_reason] = useState(data[0]?.in_reason);
   const [out_date, setOut_date] = useState(data[0]?.in_date);
+  const [out_reason, setOut_reason] = useState(data[0]?.out_reason);
 
   const fetchSearchResults = async (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ function EditHaramain() {
       .finally(() => setIsLoading(false));
   };
 
-  const updateResults = async (e, req) => {
+  const updateResults = async (e) => {
     e.preventDefault();
     const id = data[0].id;
     setIsLoading(true);
@@ -70,13 +70,12 @@ function EditHaramain() {
       room_no,
       coupon,
       in_date,
-      in_reason,
+      out_reason,
       out_date,
     };
     await axios
       .put(`${api}/haramain/update/` + id, item)
-      .then((response) => {
-        console.log(item);
+      .then(() => {
         // onSubmitProps.resetForm();
         Swal.fire({
           position: "center",
@@ -136,7 +135,7 @@ function EditHaramain() {
                       ref={ref}
                       autoComplete="off"
                       className="formInput"
-                      type="number"
+                      type="text"
                       id="emp_no"
                       name="emp_no"
                       placeholder=""
@@ -181,6 +180,18 @@ function EditHaramain() {
                       defaultValue={data[0].nationality}
                       onChange={(e) => setNationality(e.target.value)}
                     />
+                    <button
+                  style={{
+                    backgroundColor: "teal",
+                    width: "20%",
+                    alignSelf: "center",
+                  }}
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={updateResults}
+                >
+                  تحديث
+                </button>
                   </div>
                   <div className="center">
                     <div className="room" style={{ marginTop: "0rem" }}>
@@ -239,7 +250,7 @@ function EditHaramain() {
                       defaultValue={data[0].iqama_no}
                       onChange={(e) => setIqama_no(e.target.value)}
                     />
-                    <label style={{ marginTop: "0rem" }} htmlFor="in_reason">
+                    <label style={{ marginTop: "0rem" }} htmlFor="out_date">
                       تاريخ الخروج
                     </label>
                     <input
@@ -250,160 +261,24 @@ function EditHaramain() {
                       defaultValue={data[0].out_date}
                       onChange={(e) => setOut_date(e.target.valueAsDate)}
                     />
+                    <label style={{ marginTop: "0rem" }} htmlFor="out_reason">
+                      سبب الخروج
+                    </label>
+                    <input
+                      className="formInput"
+                      type="text"
+                      id="out_reason"
+                      name="out_reason"
+                      defaultValue={data[0].out_reason}
+                      onChange={(e) => setOut_reason(e.target.value)}
+                    />
                   </div>
                 </div>
-                <button
-                  style={{
-                    backgroundColor: "teal",
-                    width: "12%",
-                    alignSelf: "center",
-                  }}
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={updateResults}
-                >
-                  تحديث
-                </button>
+                
               </Form>
             </Formik>
           ) : (
-            <Formik>
-              <Form encType="multipart/form-data">
-                <div className="bottom">
-                  <div className="right">
-                    <label style={{ marginTop: "0rem" }} htmlFor="emp_no">
-                      الرقم الوظيفي
-                    </label>
-                    <input
-                      autoComplete="off"
-                      className="formInput"
-                      type="number"
-                      id="emp_no"
-                      name="emp_no"
-                      placeholder=""
-                    />
-                    <label style={{ marginTop: "0rem" }} htmlFor="name">
-                      الإسم
-                    </label>
-                    <input
-                      autoComplete="off"
-                      className="formInput"
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder=""
-                    />
-                    <label style={{ marginTop: "0rem" }} htmlFor="project">
-                      المشروع{" "}
-                    </label>
-                    <input
-                      as="select"
-                      className="formInput"
-                      id="project"
-                      name="project"
-                      defaultValue=""
-                    />
-
-                    <label style={{ marginTop: "0rem" }} htmlFor="nationality">
-                      الجنسية{" "}
-                    </label>
-                    <input
-                      autoComplete="off"
-                      className="formInput"
-                      type="text"
-                      id="nationality"
-                      name="nationality"
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="center">
-                    <div className="room" style={{ marginTop: "0rem" }}>
-                      <div>
-                        <label style={{ marginTop: "0rem" }} htmlFor="room_no">
-                          رقم الغرفة
-                        </label>
-                        <input
-                          as="select"
-                          autoComplete="off"
-                          className="formInput"
-                          type="text"
-                          id="room_no"
-                          name="room_no"
-                          placeholder=""
-                        ></input>
-                      </div>
-                      <div>
-                        <label style={{ marginTop: "0rem" }} htmlFor="coupon">
-                          البون{" "}
-                        </label>
-                        <input
-                          as="select"
-                          className="formInput"
-                          id="coupon"
-                          name="coupon"
-                          defaultValue=""
-                        />
-                      </div>
-                    </div>
-                    <div style={{ display: "block", width: "100%" }}>
-                      <div>
-                        <label style={{ marginTop: "0rem" }} htmlFor="in_date">
-                          تاريخ التسكين
-                        </label>
-                        <input
-                          autoComplete="off"
-                          className="formInput"
-                          type="date"
-                          id="in_date"
-                          name="in_date"
-                          placeholder=""
-                        />
-                      </div>
-                      <div>
-                        <label style={{ marginTop: "0rem" }} htmlFor="iqama_no">
-                          رقم الإقامة{" "}
-                        </label>
-                        <input
-                          autoComplete="off"
-                          className="formInput"
-                          type="number"
-                          id="iqama_no"
-                          name="iqama_no"
-                          placeholder=""
-                        />
-                      </div>
-                      <div>
-                        <label
-                          style={{ marginTop: "0rem" }}
-                          htmlFor="in_reason"
-                        >
-                          تاريخ الخروج
-                        </label>
-                        <input
-                          type="date"
-                          className="formInput"
-                          id="out_date"
-                          name="out_date"
-                          defaultValue=""
-                        ></input>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  style={{
-                    backgroundColor: "teal",
-                    width: "12%",
-                    alignSelf: "center",
-                  }}
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={updateResults}
-                >
-                  تحديث
-                </button>
-              </Form>
-            </Formik>
+            <p>قم بالبحث بالرقم الوظيفي</p>
           )}
         </>
       </div>

@@ -131,7 +131,7 @@ function ElfatehVacant(props) {
           <h5>فراغات السكن :</h5>
           <a
             style={{ fontSize: "13px" }}
-            href={`${api}/alameiavacant/file`}
+            href={`${api}/elfatehvacant/file`}
             className="btn btn-info"
             role="button"
           >

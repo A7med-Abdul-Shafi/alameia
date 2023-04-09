@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ function EditMorganBathaa() {
     return <div className="spinner" />;
   }
   const validation = yup.object().shape({
-    emp_no: yup.number().required("أدخل الرقم الوظيفي"),
+    emp_no: yup.string().required("أدخل الرقم الوظيفي"),
     name: yup.string().required("أدخل الإسم "),
     project: yup.string().required("أدخل المشروع "),
     nationality: yup.string().required("أدخل الجنسية "),
@@ -18,7 +18,7 @@ function EditMorganBathaa() {
     room_no: yup.string().required("أدخل رقم الغرفة "),
     coupon: yup.string().required("أدخل حالة البون"),
     in_date: yup.date().required("أدخل  تاريخ التسكين"),
-    in_reason: yup.string().required("أدخل  سبب التسكين"),
+    out_reason: yup.string().required("أدخل  سبب الخروج"),
     out_date: yup.date(),
   });
 
@@ -34,7 +34,7 @@ function EditMorganBathaa() {
   const [room_no, setRoom_no] = useState(data[0]?.room_no);
   const [coupon, setCoupon] = useState(data[0]?.coupon);
   const [in_date, setIn_date] = useState(data[0]?.in_date);
-  const [in_reason, setIn_reason] = useState(data[0]?.in_reason);
+  const [out_reason, setOut_reason] = useState(data[0]?.out_reason);
   const [out_date, setOut_date] = useState(data[0]?.in_date);
 
   const fetchSearchResults = async (e) => {
@@ -57,7 +57,7 @@ function EditMorganBathaa() {
       .finally(() => setIsLoading(false));
   };
 
-  const updateResults = async (e, req) => {
+  const updateResults = async (e) => {
     e.preventDefault();
     const id = data[0].id;
     setIsLoading(true);
@@ -70,12 +70,12 @@ function EditMorganBathaa() {
       room_no,
       coupon,
       in_date,
-      in_reason,
+      out_reason,
       out_date,
     };
     await axios
       .put(`${api}/morgan2bathaa/update/` + id, item)
-      .then((response) => {
+      .then(() => {
         console.log(item);
         // onSubmitProps.resetForm();
         Swal.fire({
@@ -105,243 +105,184 @@ function EditMorganBathaa() {
       .finally(() => setIsLoading(false));
   };
   return (
-    <div className="searchNew">
-      <div className="top">
-        <h5>تعديل بيانات</h5>
-        <form onSubmit={fetchSearchResults}>
-          <div className="searchInput">
-            <input
-              type="text"
-              required
-              placeholder="بحث"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-        </form>
-      </div>
-      <div className="result">
-        {isLoading ? (
-          Loading()
-        ) : data && data.length > 0 ? (
-          <div style={{ marginTop: "0.5rem" }}>
-            <Formik
-              // initialValues={data[0] || '' }
-              validationSchema={validation}
-              enableReinitialize={true}
-              // validateOnChange={true}
-              // onSubmit={updateResults}
-            >
-              {(formik) => {
-                return (
-                  <form encType="multipart/form-data" id="my-form">
-                    <div className="bottom">
-                      <div className="right">
-                        <label htmlFor="emp_no">الرقم الوظيفي</label>
+    <>
+      <div className="newContainer1">
+        <div className="top">
+          <h5>تعديل بيانات</h5>
+          <form onSubmit={fetchSearchResults}>
+            <div className="search">
+              <input
+                type="text"
+                required
+                placeholder="  بحث "
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+          </form>
+        </div>
+        <>
+          {isLoading ? (
+            Loading()
+          ) : data && data.length > 0 ? (
+            <Formik validationSchema={validation} enableReinitialize={true}>
+              <Form encType="multipart/form-data">
+                <div className="bottom">
+                  <div className="right">
+                    <label style={{ marginTop: "0rem" }} htmlFor="emp_no">
+                      الرقم الوظيفي
+                    </label>
+                    <input
+                      ref={ref}
+                      autoComplete="off"
+                      className="formInput"
+                      type="text"
+                      id="emp_no"
+                      name="emp_no"
+                      placeholder=""
+                      defaultValue={data[0].emp_no}
+                      onChange={(e) => setEmp_no(e.target.value)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="name">
+                      الإسم
+                    </label>
+                    <input
+                      ref={ref}
+                      autoComplete="off"
+                      className="formInput"
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder=""
+                      defaultValue={data[0].name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="project">
+                      المشروع{" "}
+                    </label>
+                    <input
+                      className="formInput"
+                      type="text"
+                      id="project"
+                      name="project"
+                      defaultValue={data[0].project}
+                      onChange={(e) => setProject(e.target.value)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="nationality">
+                      الجنسية{" "}
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="formInput"
+                      type="text"
+                      id="nationality"
+                      name="nationality"
+                      placeholder=""
+                      defaultValue={data[0].nationality}
+                      onChange={(e) => setNationality(e.target.value)}
+                    />
+                    <button
+                      style={{
+                        backgroundColor: "teal",
+                        width: "20%",
+                        alignSelf: "center",
+                      }}
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={updateResults}
+                    >
+                      تحديث
+                    </button>
+                  </div>
+                  <div className="center">
+                    <div className="room" style={{ marginTop: "0rem" }}>
+                      <div>
+                        <label htmlFor="room">رقم الغرفة</label>
                         <input
-                          ref={ref}
-                          control="input"
-                          style={{ fontSize: "16px" }}
-                          type="number"
-                          name="emp_no"
-                          id="emp_no"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].emp_no}
-                          onChange={(e) => setEmp_no(e.target.value)}
-                        />
-                        <label htmlFor="name">الإسم</label>
-                        <input
-                          ref={ref}
-                          control="input"
-                          style={{ fontSize: "14px" }}
-                          type="text"
-                          name="name"
-                          id="name"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                        <label htmlFor="project"> المشروع</label>
-                        <input
-                          control="input"
-                          style={{ fontSize: "14px" }}
-                          type="text"
-                          name="project"
-                          id="project"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].project}
-                          onChange={(e) => setProject(e.target.value)}
-                        />
-                        <label htmlFor="nationality">الجنسية </label>
-                        <input
-                          control="input"
-                          style={{ fontSize: "14px" }}
-                          type="text"
-                          name="nationality"
-                          id="nationality"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].nationality}
-                          onChange={(e) => setNationality(e.target.value)}
-                        />
-                        <button
-                          type="button"
-                          onClick={updateResults}
-                          className="btn btn-danger"
-                          // disabled={!canSave}
-                        >
-                          تحديث
-                        </button>
-                      </div>
-                      <div className="left">
-                        <div className="room">
-                          <label htmlFor="room_no">رقم الغرفة</label>
-                          <input
-                            control="input"
-                            style={{ fontSize: "16px" }}
-                            autoComplete="off"
-                            className="formInput"
-                            type="text"
-                            id="room_no"
-                            name="room_no"
-                            placeholder=""
-                            onBlur={formik.handleBlur}
-                            defaultValue={data[0].room_no}
-                            onChange={(e) => setRoom_no(e.target.value)}
-                          />
-                          <label htmlFor="coupon">بون الطعام</label>
-                          <input
-                            control="input"
-                            style={{ fontSize: "16px" }}
-                            autoComplete="off"
-                            className="formInput"
-                            type="text"
-                            id="coupon"
-                            name="coupon"
-                            placeholder=""
-                            onBlur={formik.handleBlur}
-                            defaultValue={data[0].coupon}
-                            onChange={(e) => setCoupon(e.target.value)}
-                          />
-                        </div>
-                        <label htmlFor="in_date">تاريخ التسكين</label>
-                        <input
-                          control="input"
-                          style={{ fontSize: "16px" }}
-                          type="date"
-                          name="in_date"
-                          id="in_date"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].in_date}
-                          onChange={(e) => setIn_date(e.target.value)}
-                        />
-                        <label htmlFor="iqama_no">رقم الإقامة </label>
-                        <input
-                          control="input"
-                          style={{ fontSize: "16px" }}
-                          type="number"
-                          name="iqama_no"
-                          id="iqama_no"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].iqama_no}
-                          onChange={(e) => setIqama_no(e.target.value)}
-                        />
-                        <label htmlFor="in_reason">سبب التسكين</label>
-                        <input
-                          control="input"
-                          style={{ fontSize: "14px" }}
-                          type="text"
-                          name="in_reason"
-                          id="in_reason"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].in_reason}
-                          onChange={(e) => setIn_reason(e.target.value)}
-                        />
-                        <label htmlFor="out_date">تاريخ الخروج</label>
-                        <input
-                          control="input"
-                          style={{ fontSize: "16px" }}
-                          type="date"
-                          name="out_date"
-                          id="out_date"
-                          onBlur={formik.handleBlur}
-                          defaultValue={data[0].out_date}
-                          onChange={(e) => setOut_date(e.target.valueAsDate)}
-                        />
-                      </div>
-                    </div>
-                  </form>
-                );
-              }}
-            </Formik>
-          </div>
-        ) : (
-          <div className="searchNew" style={{ marginTop: "0.5rem" }}>
-            <div className="result">
-              {/* <Formik
-                                initialValues={data}
-                                validationSchema={validation}
-                                enableReinitialize
-                            > */}
-              {/* {(formik) => { */}
-              {/* return ( */}
-              <div style={{ display: "block" }}>
-                <form>
-                  <div className="bottom">
-                    <div className="right">
-                      <label htmlFor="emp_no">الرقم الوظيفي</label>
-                      <input type="number" name="emp_no" id="emp_no" />
-                      <label htmlFor="name">الإسم</label>
-                      <input type="text" name="name" id="name" />
-                      <label htmlFor="project">المشروع </label>
-                      <input type="text" name="project" id="project" />
-                      <label htmlFor="nationality">الجنسية </label>
-                      <input type="text" name="nationality" id="nationality" />
-                      <button type="submit" className="btn btn-danger">
-                        تحديث
-                      </button>
-                    </div>
-                    <div className="left">
-                      <div style={{ display: "flex" }}>
-                        <label htmlFor="room_no">رقم الغرفة</label>
-                        <input
-                          autoComplete="off"
                           className="formInput"
-                          type="text"
+                          data-live-search="true"
                           id="room_no"
                           name="room_no"
                           placeholder=""
+                          defaultValue={data[0].room_no}
+                          onChange={(e) => setRoom_no(e.target.value)}
                         />
-                        <label htmlFor="coupon">بون الطعام</label>
-                        <input
-                          autoComplete="off"
+                      </div>
+                      <div>
+                        <label htmlFor="coupon">البون</label>
+                        <select
                           className="formInput"
                           type="text"
                           id="coupon"
                           name="coupon"
                           placeholder=""
-                        />
+                          defaultValue={data[0].coupon}
+                          onChange={(e) => setCoupon(e.target.value)}
+                        >
+                          <option value="0">إختر بون الطعام</option>
+                          <option value="نعم">نعم</option>
+                          <option value="لا">لا</option>
+                        </select>
                       </div>
-
-                      <label htmlFor="in_date">تاريخ التسكين</label>
-                      <input type="date" name="in_date" id="in_date" />
-                      <label htmlFor="iqama_no">رقم الإقامة </label>
-                      <input type="number" name="iqama_no" id="iqama_no" />
-                      <label htmlFor="in_reason">سبب التسكين</label>
-                      <input type="text" name="in_reason" id="in_reason" />
-                      <label htmlFor="out_date">تاريخ الخروج</label>
-                      <input type="date" name="out_date" id="out_date" />
                     </div>
+                    <label style={{ marginTop: "0rem" }} htmlFor="in_date">
+                      تاريخ التسكين
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="formInput"
+                      type="date"
+                      id="in_date"
+                      name="in_date"
+                      placeholder=""
+                      defaultValue={data[0].in_date}
+                      onChange={(e) => setIn_date(e.target.value)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="iqama_no">
+                      رقم الإقامة{" "}
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="formInput"
+                      type="number"
+                      id="iqama_no"
+                      name="iqama_no"
+                      placeholder=""
+                      defaultValue={data[0].iqama_no}
+                      onChange={(e) => setIqama_no(e.target.value)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="in_reason">
+                      تاريخ الخروج
+                    </label>
+                    <input
+                      className="formInput"
+                      type="date"
+                      id="out_date"
+                      name="out_date"
+                      defaultValue={data[0].out_date}
+                      onChange={(e) => setOut_date(e.target.valueAsDate)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="out_reason">
+                      سبب الخروج
+                    </label>
+                    <input
+                      className="formInput"
+                      type="text"
+                      id="out_reason"
+                      name="out_reason"
+                      defaultValue={data[0].out_reason}
+                      onChange={(e) => setOut_reason(e.target.value)}
+                    />
                   </div>
-                </form>
-              </div>
-              {/* ); */}
-              {/* }} */}
-              {/* </Formik> */}
-            </div>
-          </div>
-        )}
+                </div>
+              </Form>
+            </Formik>
+          ) : (
+            <p>قم بالبحث بالرقم الوظيفي</p>
+          )}
+        </>
       </div>
-    </div>
+    </>
   );
 }
 

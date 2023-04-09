@@ -10,7 +10,7 @@ import api from "../../customApi";
 
 function MaintanenceHaramain() {
   function Loading() {
-    return <div className="spinner" />;
+    return <div className="spinner" />
   }
 
   const userColumns = [
@@ -68,7 +68,7 @@ function MaintanenceHaramain() {
   const [room_no, setRoom_no] = useState("");
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [housing, setHousing] = useState("");
-  const { data, isFetchLoading, isError, refetch } = useQuery(
+  const { data, refetch } = useQuery(
     ["elharamain"],
     async () => {
       return await axios
