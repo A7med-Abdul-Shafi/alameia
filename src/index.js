@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App'
+import App from './App';
 import { DarkModeContextProvider } from "./context/darkModeContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
@@ -20,5 +20,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </BrowserRouter>
         </Provider>
     </DarkModeContextProvider>
-  </React.StrictMode >,
+  </React.StrictMode >
 )
