@@ -1,11 +1,10 @@
 import React from "react";
-import "./style.css";
+// import "./style.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import "swiper/css";
-import avatar1 from "../imgs/logo-2030.png"
 
 const About = () => {
     return (
@@ -14,7 +13,7 @@ const About = () => {
             spaceBetween={30}
             centeredSlides={true}
             autoplay={{
-                delay: 3500,
+                delay: 4000,
                 disableOnInteraction: false,
             }}
             pagination={{
@@ -24,72 +23,50 @@ const About = () => {
             modules={[Autoplay, Pagination, Navigation]}
             >
             <SwiperSlide>
-                <section className="testimonials">
-                    <h5>Review</h5>
-                    <div className="client__avatar">
-                    <img src={avatar1}  alt="" />
-                    </div>
-                    <h2>Test</h2>
-                    <h5 className="client__name">rrrrrrrrr</h5>
-                    <small className="client_review">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
-                </section>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
             </SwiperSlide>
             <SwiperSlide>
-                <section className="testimonials">
-                    <h5>Review</h5>
-                    <div className="client__avatar">
-                    <img src={avatar1}  alt="" />
-                    </div>
-                    <h2>Test</h2>
-                    <h5 className="client__name">rrrrrrrrr</h5>
-                    <small className="client_review">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
-                </section>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
             </SwiperSlide>
             <SwiperSlide>
-            <section className="testimonials">
-                <h5>Review</h5>
-                <div className="client__avatar">
-                <img src={avatar1}  alt="" />
-                </div>
-                <h2>Test</h2>
-                <h5 className="client__name">rrrrrrrrr</h5>
-                <small className="client_review">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
-            </section>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
             </SwiperSlide>
             <SwiperSlide>
-            <section className="testimonials">
-                <h5>Review</h5>
-                <div className="client__avatar">
-                <img src={avatar1}  alt="" />
-                </div>
-                <h2>Test</h2>
-                <h5 className="client__name">lorem</h5>
-                <small className="client_review">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
-            </section>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
             </SwiperSlide>
             <SwiperSlide>
-            <section className="testimonials">
-                <h5>Review</h5>
-                <div className="client__avatar">
-                <img src={avatar1}  alt="" />
-                </div>
-                <h2>Test</h2>
-                <h5 className="client__name">rrrrrrrrr</h5>
-                <small className="client_review">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
-            </section>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
             </SwiperSlide>
             <SwiperSlide>
-            <section className="testimonials">
-                <h5>Review</h5>
-                <div className="client__avatar">
-                <img src={avatar1}  alt="" />
-                </div>
-                <h2>Test</h2>
-                <h5 className="client__name">rrrrrrrrr</h5>
-                <small className="client_review">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
-            </section>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
             </SwiperSlide>
-            
+            <SwiperSlide>
+                <hgroup className="testimonials" >
+                    <h4>Test</h4>
+                    <small className="client_review" style={{color:"#000"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos comm sit amet consectetur adipisicing elit. Non doloremque quia qui, maiores, cum fugiat eos commodi placeat a ipsum ut tempora aut. Facere facilis quas fugit aliquam voluptas ea.</small>
+                </hgroup>
+            </SwiperSlide>
         </Swiper>
     );
 };

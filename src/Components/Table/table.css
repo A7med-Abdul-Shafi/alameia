@@ -14,9 +14,6 @@ input::placeholder {
   font-size: 12px;
   /* text-indent: 5px; */
 } 
-.table th {
-  height: 10px!important;
-}
 .table {
   color: #323333;
   font-size: 12px;
@@ -28,12 +25,12 @@ input::placeholder {
   position: absolute;
   font-size: 12px;
   width: 90px!important;
-  top: -51px;
-  right: 200px;
-  height: 33px;
+  top: -50px;
+  right: 16%;
+  height: 32px;
 }
 .table thead {
-  background-color: #baaaf3;
+  background-color:  #55c591;
 
 }
 
@@ -44,9 +41,10 @@ input::placeholder {
 .table th,
 .table td,
 .table tr {
+  font-size: 12px;
   align-items: center;
   color: #323333;
-  padding: 0.2rem;
+  padding: 0.3rem !important;
   vertical-align: top;
   border: 1px solid #232424;
 
@@ -58,14 +56,22 @@ input::placeholder {
 
 }
 
-/* //   .viewButton,
-//   .deleteButton,
-//   .cellWithStatus {
-//     color: gray;
-//     border: none;
+.my-swal {
+  background-color: #ffffff;
+  border-radius: 5px;
+}
 
-// } */
-
+.my-swal-popup {
+  width: 300px;
+}
+.my-swal-confirm-button,.my-swal-cancel-button,.my-swal-icon {
+  font-size: 13px;
+}
+.my-swal-title {
+  color: #333;
+  font-size: 13px;
+  animation: none;
+}
 
 .viewButton {
   display: flex;

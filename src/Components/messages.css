@@ -1,0 +1,10 @@
+.messages {
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 2px rgba(173, 172, 172, 0.67);
+      padding: 10px;
+      margin: 60px 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 5px;
+}

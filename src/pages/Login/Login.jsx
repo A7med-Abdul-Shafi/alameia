@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../auth/authSlice";
 import { useLoginMutation } from "../../auth/authApiSlice";
 import usePersist from "../../hooks/usePersist";
+import Button from 'react-bootstrap/Button';
 
 const Login = () => {
   const userRef = useRef();
@@ -18,7 +19,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [persist, setPersist] = usePersist();
   const [login, { isLoading }] = useLoginMutation();
-
+  const [code, setCode] = useState("");
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -61,77 +62,101 @@ const Login = () => {
     try {
       const { accessToken } = await login({ username, password }).unwrap();
       dispatch(setCredentials({ accessToken }));
-    setUsername("");
-    setPassword("");
-    navigate("/dashboard");
-    } catch (err) {
-      if (!err.status) {
-        setError('لا يوجد إتصال بالسيرفر');
-      } else if (err.status === 400) {
-        setError('إسم المستخدم أو كلمة المرور غير صحيحة');
-      } else if (err.status === 401) {
-        setError('المستخدم غير مصرح');
-      } else {
-        setError(err.data?.message);
+      setUsername("");
+      setPassword("");
+      // navigate("/phone/verify");
+      navigate("/dashboard");
+      } catch (err) {
+        if (!err.status) {
+          setError('لا يوجد إتصال بالسيرفر');
+        } else if (err.status === 400) {
+          setError('إسم المستخدم أو كلمة المرور غير صحيحة');
+        } else if (err.status === 401) {
+          setError('المستخدم غير مصرح');
+        } else {
+          setError(err.data?.message);
+        }
       }
-    }
-  };
+    };
   const handleToggle = () => setPersist(prev => !prev)
+  const content = (
+      <form encType="multipart/form-data" onSubmit={handleSubmit}>
+    <label htmlFor="name" style={{fontSize:"14px"}}>إسم المستخدم :</label>
+    <input
+      placeholder=""
+      autoComplete="off"
+      type="text"
+      ref={userRef}
+      id="name"
+      required
+      onChange={(e) => setUsername(e.target.value)}
+    />
+    <br />
+    <label htmlFor="password" style={{fontSize:"14px"}}>كلمة المرور :</label>
+    <input
+      placeholder=""
+      autoComplete="off"
+      type="password"
+      id="password"
+      required
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <br />
+    <div className="form-check">
+        <input 
+          placeholder=""
+          type="checkbox" id="box" 
+          onChange={handleToggle}
+          checked={persist}
+          className="form-check-input" 
+          />
+        <label className="form-check-label" htmlFor="flexCheckDefault">تذكرني</label>
+      </div>
+      {error && <span>إسم المستخدم أو كلمة المرور خاطئة</span>}
+    <Button type="submit" variant="success" style={{backgroundColor:"#343a40", fontSize:"14px", marginBottom:"40px"}} > {isLoading?Loading():"دخول"}</Button>
+
+    <div style={{display:"flex", justifyContent:"space-between", gap:"20px"}}>
+    <Link to="/register" style={{width:"100%"}}>
+    <Button type="button" variant="success" style={{backgroundColor:"#343a40", width:"100%", fontSize:"14px"}} >تسجيل</Button>
+    </Link>
+    <Button type="button" variant="success" style={{backgroundColor:"#343a40", width:"100%", fontSize:"14px"}} >نسيت كلمة المرور</Button>
+    </div>
+    </form>
+  )
+const verify = (
+  <>
+<small style={{ marginBottom: "20px" }}>توثيق رقم التليفون</small>
+<form className='multipart/form-data' onSubmit={handleSubmit}>
+    <label htmlFor='code' style={{ marginBottom: "30px", fontSize:"14px"}}>
+        تم إرسال كود التوثيق إلي رقم الجوال الخاص بك
+    </label>
+    <input
+      placeholder="أدخل الكود المرسل"
+        type='text'
+        name='code'
+        id='code'
+        ref={userRef} 
+        className='code'
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        required
+    />
+    <Button type="submit" variant="success" style={{backgroundColor:"#343a40", width:"100%", fontSize:"14px",marginTop:"30px"}}>توثيق</Button>
+</form>
+</>
+)
   return (
     <div className="login">
       <Navbar2 />
-      <form className="hero" onSubmit={handleSubmit}>
-        <section>
-          <div className="ahmed">
-            <h2>تسجيل الدخول</h2>
-          </div>
-          <div className="row">
-            <div className="name">
-              <input
-                autoComplete="off"
-                type="text"
-                ref={userRef}
-                id="name"
-                required
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <label htmlFor="name" style={{ fontSize: "15px" }}>
-                إسم المستخدم
-              </label>
-            </div>
-            <div className="name">
-              <input
-                autoComplete="off"
-                type="password"
-                id="password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <label htmlFor="password" style={{ fontSize: "15px" }}>
-                كلمة المرور
-              </label>
-            </div>
-            <div className="check">
-              <input 
-                type="checkbox" id="box" 
-                onChange={handleToggle}
-                checked={persist}
-                />
-              <p style={{ fontSize: "15px" }}>تذكرني</p>
-            </div>
-          </div>
-          {error && <span>إسم المستخدم أو كلمة المرور خاطئة</span>}
-          <button type="submit" style={{ fontSize: "18px" }}>
-            {isLoading?(Loading()):"دخول"}
-          </button>
-          <div className="create">
-            <Link to="/register">
-              <button>تسجيل</button>
-            </Link>
-            <button>نسيت كلمة المرور</button>
-          </div>
+      <div className="ahmed">
+      <section >
+        <p>تسجيل الدخول</p>
+        {content}
+        {/* {verify} */}
         </section>
-      </form>
+      </div>
+  
+
       <Footer />
     </div>
   );

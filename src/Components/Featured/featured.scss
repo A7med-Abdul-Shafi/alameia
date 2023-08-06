@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  flex: 1;
+  flex: 4;
   padding: 10px;
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   // box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47) !important;
@@ -11,44 +11,49 @@
   height: 100%;
 
   .featured {
+    width: 100%;
     -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
     box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
     padding: 10px;
     border-radius: 5px;
-
+    .table th,
+    .table td {
+      padding: 0.3rem;
+      vertical-align: top;
+    }
+.table {
+  width: 100%;
+}
     .top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       color: gray;
-
       .title {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
       }
     }
-
+    .center {
+    display: flex; 
+    gap: 10px;
     .bottom {
-
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
+      width: 100%;
+      padding: 15px;
       align-items: center;
       justify-content: center;
       gap: 15px;
-
       .featuredChart {
         width: 100px;
-        height: 100px;
+        height: 85px;
       }
-
       .title {
         font-weight: 500;
         color: gray;
       }
 
       .amount {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
       }
 
@@ -98,5 +103,21 @@
         }
       }
     }
+    .datatableHome {
+      width: 100%;
+      th, td {
+        font-size: 11px;
+
+        border: 1px solid black;
+        padding: 5px;
+        text-align: right;
+        
+      }
+      th {
+        font-weight: bold;
+      }
+    
+  }
+  }
   }
 }

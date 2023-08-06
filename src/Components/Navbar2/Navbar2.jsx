@@ -25,12 +25,12 @@ const Navbar2 = () => {
         <nav>
             <div className='nav-center'>
                 <div className='nav-header'>
-                    <img src={logo} className='logo' alt='logo' />
+                    <img src={logo} className='logo' alt='logo'/>
                     <button className='nav-toggle' onClick={toggleLinks}>
                         <FaBars />
                     </button>
                 </div>
-                <div className="logo">
+                <div className="logo2">
                     <img src={logo2030} className='logo2' alt='logo' />
                 </div>
             </div>

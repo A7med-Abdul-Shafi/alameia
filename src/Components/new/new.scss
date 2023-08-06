@@ -14,22 +14,6 @@
         border-radius: 5px;
         font-size: 15px;
       }
-
-      button {
-        width: 150px;
-        height: 40px;
-        padding: 4px !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        border-radius: 5px;
-        background-color: teal;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-      }
     }
     
     .top,
@@ -117,24 +101,6 @@
           border-radius: 5px;
           height: 32px;
         }
-
-        button {
-          width: 150px;
-          height: 40px;
-          padding: 4px;
-          margin-top: 20px;
-          display: flex;
-          // margin-right: calc(100% / 4);
-          align-items: center;
-          justify-content: center;
-          border: none;
-          border-radius: 5px;
-          background-color: teal;
-          color: white;
-          font-size: 16px;
-          font-weight: bold;
-          cursor: pointer;
-        }
       }
 
       .right {
@@ -180,12 +146,19 @@ div.as-console-wrapper {
     max-height: calc(1em + 9px)
 }
   .swal-wide {
-    width: 160px !important;
-    height: 120px !important;
+    width: 180px !important;
+    height: 130px !important;
     font-size: 6px !important;
     margin: 2px !important;
 
   }
   li .nav-link {
     color: #111;
+  }
+  input::placeholder {  
+    font-size: 12px;
+    text-indent: 5px;
+  } 
+  form {
+    display: flex;
   }

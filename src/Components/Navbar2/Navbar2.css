@@ -6,12 +6,12 @@ Variables
 
 :root {
     /* dark shades of primary color*/
-    --clr-primary-1: hsl(205, 86%, 17%);
+    --clr-primary-1: #45693d;
     --clr-primary-2: hsl(205, 77%, 27%);
     --clr-primary-3: hsl(205, 72%, 37%);
     --clr-primary-4: hsl(205, 63%, 48%);
     /* primary/main color */
-    --clr-primary-5: hsl(205, 78%, 60%);
+    --clr-primary-5: #2bc209;
     /* lighter shades of primary color */
     --clr-primary-6: hsl(205, 89%, 70%);
     --clr-primary-7: hsl(205, 90%, 76%);
@@ -142,7 +142,7 @@ p {
 }
 
 nav {
-    background: hsl(205, 77%, 27%);
+    background-color: #45693d;
     box-shadow: var(--light-shadow);
     position: relative;
 
@@ -175,13 +175,13 @@ nav {
 }
 
 .nav-toggle:hover {
-    color: var(--clr-primary-1);
+    color: var(--clr-primary-5);
     transform: rotate(90deg);
 }
 
 .logo {
     height: 50px;
-    
+    width: 200px;
     
 }
 
@@ -202,7 +202,7 @@ nav {
 }
 
 .links a:hover {
-    background-color: var(--clr-primary-8);
+    background-color: #cfe9c9;
     color: var(--clr-primary-5);
     padding-left: 1.5rem;
     
@@ -251,13 +251,14 @@ nav {
 
     .links {
         display: flex;
-        
     }
 
     .links a {
         padding: 0;
         margin: 0 0.5rem;
         margin-left: 20px;
+        font-size: 15px;
+
     }
 
     .links a:hover {

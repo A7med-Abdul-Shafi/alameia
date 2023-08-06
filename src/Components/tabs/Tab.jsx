@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import {  MDBTabs,  MDBTabsItem,  MDBTabsLink,  MDBTabsContent,  MDBTabsPane } from "mdb-react-ui-kit";
 import "./tab.scss";
 import New from "../../Components/new/New";
-import Groupalameia from "../../Components/group/Groupalameia";
-import Tablesettlementalameia from "../../Components/Table/Tablesettlementalameia";
-import SearchAlameia from "../../Components/search/SearchAlameia";
-// import InventoryAlameia from "../../Components/inventory/InventoryAlameia";
-import EditAlameia from "../../Components/edit/EditAlameia";
-// import ReportNationalityAlameia from "../../Components/reports/ReportNationalityAlameia";
-import Alameia from "../../Components/Maintainence/Alameia";
+import GroupData from "../../Components/group/GroupData";
+import TableData from "../../Components/Table/TableData";
+import EditData from "../../Components/edit/EditData";
+import Maintainence from "../../Components/Maintainence/Maintainence";
 import AlameiaVacant from "../vacancies/alameiaVacant";
+import TransferDues from "../transferDues/TransferDues" 
+import useTitle from '../../hooks/useTitle'
+
 const Tab = () => {
+  useTitle('Alameia Processes')
+
   const [justifyActive, setJustifyActive] = useState("tab1");
   const handleJustifyClick = (value) => {
     if (value === justifyActive) {
@@ -44,7 +46,7 @@ const Tab = () => {
             onClick={() => handleJustifyClick("tab3")}
             active={justifyActive === "tab3"}
           >
-              إستعلام
+            تحويل تكاليف
           </MDBTabsLink>
         </MDBTabsItem>
         <MDBTabsItem>
@@ -76,17 +78,54 @@ const Tab = () => {
             onClick={() => handleJustifyClick("tab7")}
             active={justifyActive === "tab7"}
           >
-            تقرير التكاليف
+            لوحة التحكم 
           </MDBTabsLink>
         </MDBTabsItem>
       </MDBTabs>
       <MDBTabsContent>
         <MDBTabsPane show={justifyActive === "tab1"}><New/></MDBTabsPane>
-        <MDBTabsPane show={justifyActive === "tab2"}><Groupalameia/></MDBTabsPane>
-        <MDBTabsPane show={justifyActive === "tab7"}><Tablesettlementalameia/></MDBTabsPane>
-        <MDBTabsPane show={justifyActive === "tab3"}><SearchAlameia/></MDBTabsPane>
-        <MDBTabsPane show={justifyActive === "tab4"}><EditAlameia/></MDBTabsPane>
-        <MDBTabsPane show={justifyActive === "tab5"}><Alameia/></MDBTabsPane>
+        <MDBTabsPane show={justifyActive === "tab2"}>
+        <GroupData
+          omsubmitEndpoint="alameia/uploadfile"
+          omsubmit2Endpoint="customer/uploadfile"
+          deleteEndpoint="customer/delete"
+          labelText="إضافة قاعدة بيانات العمال"
+          buttonTextsubmitt="إضافة البيانات"
+          buttonTextdelete="حذف البيانات"
+        />
+          </MDBTabsPane>
+        <MDBTabsPane show={justifyActive === "tab7"}>
+          <TableData 
+          deleteEndpoint="alameia/delete"
+          queryKey="alameia"
+          fetchEndpoint="alameia"
+          truncEndpoint="alameia/delete"
+          apiFiledownload="alameia/api/file"
+          /></MDBTabsPane>
+        <MDBTabsPane show={justifyActive === "tab3"}>
+          <TransferDues
+            fetchProjects="projects/getall"
+            fetchSearch="alameia/search/edit"
+            updateEndpoint="alameia/transferdues"
+            transferDuesEndPoint="alameia/transfergroup/uploadfile"
+            />
+          </MDBTabsPane>
+        <MDBTabsPane show={justifyActive === "tab4"}>
+          <EditData
+            searchEndpoint="alameia/search/edit"
+            updateEndpoint="alameia/update"
+            exitGroupEndpoint="alameia/exitgroup/uploadfile"
+          />
+          </MDBTabsPane>
+        <MDBTabsPane show={justifyActive === "tab5"}>
+          <Maintainence
+            queryKey="alameiaMaintainence"
+            fetchData="alameiamaintainence/list"
+            searchEndpoint="alameia/search"
+            updateEndpoint="alameia/maintainence/new"
+            deleteEndpoint="alameiamaintainence/delete"
+          />
+          </MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab6"}><AlameiaVacant/></MDBTabsPane>
       </MDBTabsContent>
       </div>

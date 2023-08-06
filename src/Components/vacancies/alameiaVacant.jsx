@@ -4,10 +4,10 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import ReactToPdf from "react-to-pdf";
-import AlameiaAddRooms from "./AlameiaAddRooms";
-import AlameiaEditRooms from "./AlameiaEditRooms";
+import AddDataToTable from "./AddDataToTable";
+import EditDataInTable from "./EditDataInTable";
 import api from "../../customApi";
-function AlameiaVacant(props) {
+function AlameiaVacant() {
   const ref = React.createRef();
   function Loading() {
     return (
@@ -50,7 +50,7 @@ function AlameiaVacant(props) {
     };
     vacantList();
   }, []);
-
+  
   /////////////////////////////////////////////////////////////
   useEffect(() => {
     const filterList = async () => {
@@ -69,7 +69,7 @@ function AlameiaVacant(props) {
   useEffect(() => {
     const alameiaRoomList = async () => {
       setLoading(true);
-      await axios.get(`${api}/alameiarooms/list`).then(async (res) => {
+      await axios.get(`${api}/alameiarooms/alllist`).then(async (res) => {
         setAlameiaRoomsList(res.data);
         setLoading(false);
       });
@@ -115,8 +115,24 @@ function AlameiaVacant(props) {
   return (
     <div className="dataTableHome">
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <AlameiaAddRooms />
-        <AlameiaEditRooms />
+      <AddDataToTable
+        tableName="vacantalameia"
+        buttonText="إضافة غرف السكن"
+        modalTitle="إضافة غرف السكن"
+        submitButtonText="إضافة"
+      />
+      <EditDataInTable
+        searchEndpoint="searchvacant/alameia"
+        updateEndpoint="alameiavacant/update"
+        deleteEndpoint="alameiavacant/delete"
+        buttonText="تعديل الغرف"
+        modalTitle="تعديل إستيعاب الغرف"
+        searchPlaceholder="رقم الغرفة"
+        roomLabel="رقم الغرفة "
+        capacityLabel="سعة الغرفة"
+        updateButtonText="تحديث"
+        deleteButtonText="حذف الغرفة"
+      />
       </div>
       <hr />
       <div>
@@ -168,13 +184,13 @@ function AlameiaVacant(props) {
           }}
         >
           <h5> الغرف الخالية :</h5>
-          <span style={{ color: "blue" }}>
+          <span style={{ color: "#198754" }}>
             العدد : {emptyRooms.length} غرفة خالية
           </span>
           <ReactToPdf
             targetRef={ref}
-            filename="فراغات(العالمية).pdf"
-            scale={0.69}
+            filename="فراغات كامب العالمية.pdf"
+            scale={0.62}
           >
             {({ toPdf }) => (
               <svg

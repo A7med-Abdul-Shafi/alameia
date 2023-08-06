@@ -5,8 +5,15 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import api from "../../customApi";
+import { Button } from 'react-bootstrap';
+import { useQuery } from "@tanstack/react-query";
 
 function NewAlameia() {
+  const { data } = useQuery(["projects"], async () => {
+    const response = await fetch(`${api}/projects/getall`);
+    const data = await response.json();
+    return data;
+    });
   function Loading() {
     return (
       <div className="spinner" style={{ padding: "0px", margin: "0px" }} />
@@ -25,12 +32,15 @@ function NewAlameia() {
     name: yup.string().required("أدخل الإسم "),
     project: yup.string().required("أدخل المشروع "),
     nationality: yup.string().required("أدخل الجنسية "),
-    iqama_no: yup.number().required("أدخل رقم الإقامة"),
+    iqama_no: yup.string().required("أدخل رقم الإقامة"),
     room_no: yup.string().required("أدخل رقم الغرفة "),
     coupon: yup.string(),
     in_date: yup.date().required("أدخل  تاريخ التسكين"),
     in_reason: yup.string().required("أدخل  سبب التسكين"),
     out_date: yup.date(),
+    passport_no:yup.string().required("أدخل رقم الجواز"),
+    mobile: yup.number(),
+    class_a: yup.string().required("أختر الفئة"),
     emp_photo: yup
       .mixed()
       .nullable()
@@ -63,29 +73,23 @@ function NewAlameia() {
   const initalValues = {
     emp_no: "",
     name: "",
+    class_a: "",
+    room_no: "",
     project: "",
     nationality: "",
     iqama_no: "",
-    room_no: "",
-    coupon: "",
-    in_date: new Date().toLocaleDateString(),
+    passport_no:"",
+    in_date: "",
     in_reason: "",
     emp_photo: null,
     iqama_photo: null,
+    coupon: "",
+    mobile:"",
   };
-  const [options, setOptions] = useState([]);
-  useEffect(() => {
-    const projects = async () => {
-      await axios.get(`${api}/alameia/projects`).then((res) => {
-        setOptions(res.data);
-      });
-    };
-    projects();
-  }, []);
   const [options2, setOptions2] = useState([]);
   useEffect(() => {
     const projects = async () => {
-      await axios.get(`${api}/alameia/in_reason`).then((res) => {
+      await axios.get(`${api}/haramain/in_reason`).then((res) => {
         setOptions2(res.data);
       });
     };
@@ -105,20 +109,11 @@ function NewAlameia() {
   const [in_date, setIn_date] = useState("");
   const [in_reason, setIn_reason] = useState("");
   const [out_date, setOut_date] = useState("");
+  const [passport_no, setPassport_no] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [class_a, setClass] = useState("");
   const [file, setFile] = useState(null);
   const [file2, setFile2] = useState(null);
-  const addedData = {
-    emp_no: fetchData[0]?.emp_no,
-    name: fetchData[0]?.name,
-    project: fetchData[0]?.project,
-    nationality: fetchData[0]?.nationality,
-    iqama_no: fetchData[0]?.iqama_no,
-    room_no: room_no,
-    coupon: coupon,
-    in_date: in_date,
-    in_reason: in_reason,
-    out_date: out_date,
-  };
   const fetchSearchResults = async (e) => {
     e.preventDefault();
     setIsLoadingStart(true);
@@ -139,7 +134,6 @@ function NewAlameia() {
       })
       .finally(() => setIsLoadingStart(false));
   };
-
   const updateResults = async (e, req) => {
     e.preventDefault();
     const id = fetchData[0].id;
@@ -155,6 +149,9 @@ function NewAlameia() {
       in_date,
       in_reason,
       out_date,
+      passport_no,
+      mobile,
+      class_a
     };
     await axios
       .put(`${api}/customer/update/` + id, item)
@@ -189,28 +186,67 @@ function NewAlameia() {
   };
   const addResults = async (e) => {
     e.preventDefault();
+    const addedData = {
+      emp_no: fetchData[0]?.emp_no,
+      name: fetchData[0]?.name,
+      project: fetchData[0]?.project,
+      nationality: fetchData[0]?.nationality,
+      iqama_no: fetchData[0]?.iqama_no,
+      room_no: room_no,
+      coupon: coupon,
+      in_date: in_date,
+      in_reason: in_reason,
+      out_date: out_date,
+      passport_no: passport_no,
+      mobile: mobile,
+      class_a: class_a,
+    };
+    if (addedData.emp_no === '' || addedData.name === '' || addedData.housing === '' || addedData.room_no === '' || addedData.in_date === '' || addedData.in_reason === '' || addedData.coupon === '' ){
+      await Swal.fire({
+        title: 'يلزم تكملة البيانات',
+        icon: 'warning',
+        customClass: {
+        container: 'my-swal',
+        popup: 'my-swal-popup',
+        title: 'my-swal-title',
+        icon: 'my-swal-icon',
+        content: 'my-swal-content',
+        confirmButton: 'my-swal-confirm-button',
+        denyButton: 'my-swal-deny-button',
+        cancelButton: 'my-swal-cancel-button',
+        },
+    });
+    return;
+    }
     setIsLoadingStart(true);
     await axios
-      .post(`${api}/alameia`, addedData)
-      .then((response) => {
-        Swal.fire({
+      .post(`${api}/alameia?value=${fetchData[0]?.emp_no}&&indate=${in_date}`, addedData)
+      .then(() => {
+        Swal.fire({ 
           position: "center",
           icon: "success",
           customClass: "swal-wide",
-          title: `تم إضافة ${addedData.emp_no} بنجاح`,
+          title: `تم إضافة ${addedData.emp_no}`,
           showConfirmButton: false,
           timer: 1700,
         });
       })
       .catch((error) => {
-        if (error.response) {
+        if (error.response.status === 409) {
           Swal.fire({
-            position: "center",
-            icon: "error",
-            customClass: "swal-wide",
-            title: "حدثت مشكلة ما",
-            showConfirmButton: true,
-          });
+            title: "العامل مسجل من قبل",
+            icon: 'warning',
+            customClass: {
+            container: 'my-swal',
+            popup: 'my-swal-popup',
+            title: 'my-swal-title',
+            icon: 'my-swal-icon',
+            content: 'my-swal-content',
+            confirmButton: 'my-swal-confirm-button',
+            denyButton: 'my-swal-deny-button',
+            cancelButton: 'my-swal-cancel-button',
+            },
+        });
           console.log(error.response.data);
           console.log(error.response.status);
         } else if (error.request) {
@@ -222,9 +258,26 @@ function NewAlameia() {
       .finally(() => setIsLoadingStart(false));
   };
   const onSubmit = async (data, onSubmitProps) => {
+    if (data.coupon === '' ){
+      await Swal.fire({
+        title: 'يلزم تكملة البيانات',
+        icon: 'warning',
+        customClass: {
+        container: 'my-swal',
+        popup: 'my-swal-popup',
+        title: 'my-swal-title',
+        icon: 'my-swal-icon',
+        content: 'my-swal-content',
+        confirmButton: 'my-swal-confirm-button',
+        denyButton: 'my-swal-deny-button',
+        cancelButton: 'my-swal-cancel-button',
+        },
+    });
+    return;
+    }
     setIsLoadingStart(true);
     await axios
-      .post(`${api}/alameia`, data)
+      .post(`${api}/alameia?value=${data.emp_no}&&indate=${data.in_date}`, data)
       .then((response) => {
         setListofalameia(response.data);
         onSubmitProps.resetForm();
@@ -232,15 +285,27 @@ function NewAlameia() {
           position: "center",
           icon: "success",
           customClass: "swal-wide",
-          title: `تم إضافة ${data.emp_no} بنجاح`,
+          title: `تم إضافة ${data.emp_no}`,
           showConfirmButton: false,
           timer: 1700,
         });
       })
       .catch((error) => {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
+        if (error.response.status === 409) {
+          Swal.fire({
+            title: "العامل مسجل من قبل",
+            icon: 'warning',
+            customClass: {
+            container: 'my-swal',
+            popup: 'my-swal-popup',
+            title: 'my-swal-title',
+            icon: 'my-swal-icon',
+            content: 'my-swal-content',
+            confirmButton: 'my-swal-confirm-button',
+            denyButton: 'my-swal-deny-button',
+            cancelButton: 'my-swal-cancel-button',
+            },
+        });
         } else if (error.request) {
           console.log(error.request);
         } else {
@@ -325,9 +390,13 @@ function NewAlameia() {
               />
             </div>
           </form>
-          <button className="btn btn-danger" onClick={updateResults}>
-            تحديث البيانات
-          </button>
+          <Button
+            style={{fontSize:"13px",backgroundColor:"teal"}}
+            onClick={updateResults}
+            className="p-button-success mr-2"
+            >
+              تحديث البيانات
+          </Button>
         </div>
         <>
           {isLoadingStart ? (
@@ -382,7 +451,7 @@ function NewAlameia() {
                       onChange={(e) => setProject(e.target.value)}
                     >
                       <option value="0">{fetchData[0].project}</option>
-                      {options.map((option, index) => (
+                      {data?.map((option, index) => (
                         <option key={index} value={option.project}>
                           {option.project}
                         </option>
@@ -402,8 +471,55 @@ function NewAlameia() {
                       defaultValue={fetchData[0].nationality}
                       onChange={(e) => setNationality(e.target.value)}
                     />
+                    <label style={{ marginTop: "0rem" }} htmlFor="passport_no">
+                      رقم الجواز{" "}
+                    </label>
+                    <ErrorMessage name="passport_no" component="span" />
+                    <input
+                      autoComplete="off"
+                      className="formInput"
+                      type="text"
+                      id="passport_no"
+                      name="passport_no"
+                      placeholder=""
+                      defaultValue={fetchData[0].passport_no}
+                      onChange={(e) => setPassport_no(e.target.value)}
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="mobile">
+                      الجوال{" "}
+                    </label>
+                    <ErrorMessage name="mobile" component="span" />
+                    <input
+                      autoComplete="off"
+                      className="formInput"
+                      type="number"
+                      id="mobile"
+                      name="mobile"
+                      placeholder=""
+                      defaultValue={fetchData[0].mobile}
+                      onChange={(e) => setMobile(e.target.value)}
+                    />
                   </div>
                   <div className="center">
+                  <label style={{ marginTop: "0rem" }} htmlFor="mobile">
+                      الفئة{" "}
+                    </label>
+                    <ErrorMessage name="class_a" component="span" />
+                    <select
+                      autoComplete="off"
+                      className="formInput"
+                      type="text"
+                      id="class_a"
+                      name="class_a"
+                      placeholder=""
+                      defaultValue={fetchData[0].class_a}
+                      onChange={(e) => setClass(e.target.value)}
+                    >
+                      <option value="0">إختر الفئة</option>
+                          <option value="عامل">عامل</option>
+                          <option value="مراقب">مراقب</option>
+                          <option value="مهندس">مهندس</option>
+                      </select>
                     <div className="room" style={{ marginTop: "0rem" }}>
                       <div>
                         <label htmlFor="room">رقم الغرفة</label>
@@ -420,7 +536,7 @@ function NewAlameia() {
                             إختر رقم الغرفة ..................
                           </option>
                           {inputFilteredRooms.map((rooms, index) => (
-                            <option key={index} data-tokens={rooms}>
+                            <option key={index} value={rooms}>
                               {rooms}
                             </option>
                           ))}
@@ -452,7 +568,6 @@ function NewAlameia() {
                     <input
                       autoComplete="off"
                       className="formInput"
-                      // value={new Date().toISOString().substring(0, 10)}
                       type="date"
                       id="in_date"
                       name="in_date"
@@ -466,7 +581,7 @@ function NewAlameia() {
                     <input
                       autoComplete="off"
                       className="formInput"
-                      type="number"
+                      type="text"
                       id="iqama_no"
                       name="iqama_no"
                       placeholder=""
@@ -492,23 +607,23 @@ function NewAlameia() {
                         </option>
                       ))}
                     </select>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
+                    <Button
+                      style={{fontSize:"14px",backgroundColor:"teal"}}
                       onClick={addResults}
-                    >
-                      تسكين
-                    </button>
+                      className="p-button-success mr-2"
+                      >
+                        تسكين العامل
+                    </Button>
                   </div>
                   <div className="left">
                     <label style={{ marginTop: "0rem" }} htmlFor="file">
-                      صورة شخصية:{" "}
+                      صورة الإقـامـة :{" "}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="18"
                         height="18"
                         fill="currentColor"
-                        class="bi bi-cloud-plus"
+                        className="bi bi-cloud-plus"
                         viewBox="0 0 16 16"
                       >
                         <path
@@ -529,20 +644,20 @@ function NewAlameia() {
                     <img
                       src={
                         file
-                          ? api.createObjectapi(file)
+                          ? URL.createObjectURL(file)
                           : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                       }
                       alt=""
                     />
                     <div>
                       <label style={{ marginTop: "0rem" }} htmlFor="file2">
-                        صورة الإقـامـة :{" "}
+                        صورة شخصية :{" "}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
                           height="18"
                           fill="currentColor"
-                          class="bi bi-cloud-plus"
+                          className="bi bi-cloud-plus"
                           viewBox="0 0 16 16"
                         >
                           <path
@@ -563,7 +678,7 @@ function NewAlameia() {
                       <img
                         src={
                           file2
-                            ? api.createObjectapi(file2)
+                            ? URL.createObjectURL(file2)
                             : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                         }
                         alt=""
@@ -619,7 +734,7 @@ function NewAlameia() {
                       defaultValue=""
                     >
                       <option value="0">إختر المشروع</option>
-                      {options.map((option, index) => (
+                      {data?.map((option, index) => (
                         <option key={index} value={option.project}>
                           {option.project}
                         </option>
@@ -637,8 +752,51 @@ function NewAlameia() {
                       name="nationality"
                       placeholder=""
                     />
+                    <label style={{ marginTop: "0rem" }} htmlFor="passport_no">
+                      رقم الجواز{" "}
+                    </label>
+                    <ErrorMessage name="passport_no" component="span" />
+                    <Field
+                      autoComplete="off"
+                      className="formInput"
+                      type="text"
+                      id="passport_no"
+                      name="passport_no"
+                      placeholder=""
+                    />
+                    <label style={{ marginTop: "0rem" }} htmlFor="mobile">
+                      الجوال{" "}
+                    </label>
+                    <ErrorMessage name="mobile" component="span" />
+                    <Field
+                      autoComplete="off"
+                      className="formInput"
+                      type="number"
+                      id="mobile"
+                      name="mobile"
+                      placeholder=""
+                    />
                   </div>
                   <div className="center">
+                  <label style={{ marginTop: "0rem" }} htmlFor="mobile">
+                      الفئة{" "}
+                    </label>
+                    <ErrorMessage name="class_a" component="span" />
+                    <Field
+                          as="select"
+                          autoComplete="off"
+                          className="formInput"
+                          type="text"
+                          id="class_a"
+                          name="class_a"
+                          placeholder=""
+                        >
+                          <option value="0">إختر الفئة</option>
+                          <option value="عامل">عامل</option>
+                          <option value="مراقب">مراقب</option>
+                          <option value="مهندس">مهندس</option>
+                          
+                        </Field>
                     <div className="room" style={{ marginTop: "0rem" }}>
                       <div>
                         <label style={{ marginTop: "0rem" }} htmlFor="room_no">
@@ -658,7 +816,7 @@ function NewAlameia() {
                             إختر رقم الغرفة ..................
                           </option>
                           {inputFilteredRooms.map((rooms, index) => (
-                            <option key={index} data-tokens={rooms}>
+                            <option key={index} value={rooms}>
                               {rooms}
                             </option>
                           ))}
@@ -692,7 +850,7 @@ function NewAlameia() {
                         <Field
                           autoComplete="off"
                           className="formInput"
-                          value={new Date().toISOString().substring(0, 10)}
+                          // value={new Date().toISOString().substring(0, 10)}
                           type="date"
                           id="in_date"
                           name="in_date"
@@ -707,7 +865,7 @@ function NewAlameia() {
                         <Field
                           autoComplete="off"
                           className="formInput"
-                          type="number"
+                          type="text"
                           id="iqama_no"
                           name="iqama_no"
                           placeholder=""
@@ -736,27 +894,28 @@ function NewAlameia() {
                           ))}
                         </Field>
                       </div>
-                      <button
+                      <Button
+                        style={{fontSize:"14px",backgroundColor:"teal"}}
                         type="submit"
-                        className="btn btn-danger"
+                        className="p-button-success mr-2"
                         onClick={() => [
                           setFile(initalValues.emp_photo),
                           setFile2(initalValues.iqama_photo),
                         ]}
                       >
-                        تسكين
-                      </button>
+                        تسكين العامل
+                      </Button>
                     </div>
                   </div>
                   <div className="left">
                     <label style={{ marginTop: "0rem" }} htmlFor="file">
-                      صورة شخصية:{" "}
+                      صورة الإقـامـة :{" "}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="18"
                         height="18"
                         fill="currentColor"
-                        class="bi bi-cloud-plus"
+                        className="bi bi-cloud-plus"
                         viewBox="0 0 16 16"
                       >
                         <path
@@ -776,20 +935,20 @@ function NewAlameia() {
                     <img
                       src={
                         file
-                          ? api.createObjectapi(file)
+                          ? URL.createObjectURL(file)
                           : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                       }
                       alt=""
                     />
                     <div>
                       <label style={{ marginTop: "0rem" }} htmlFor="file2">
-                        صورة الإقـامـة :{" "}
+                        صورة شخصية :{" "}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
                           height="18"
                           fill="currentColor"
-                          class="bi bi-cloud-plus"
+                          className="bi bi-cloud-plus"
                           viewBox="0 0 16 16"
                         >
                           <path
@@ -809,7 +968,7 @@ function NewAlameia() {
                       <img
                         src={
                           file2
-                            ? api.createObjectapi(file2)
+                            ? URL.createObjectURL(file2)
                             : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                         }
                         alt=""

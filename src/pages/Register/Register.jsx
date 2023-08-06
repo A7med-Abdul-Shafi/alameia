@@ -4,11 +4,15 @@ import "./register.css";
 import Footer from "../../Components/footer/Footer";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import api from "../../customApi"
+import api from "../../customApi";
+
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Register = () => {
+  function Loading() {
+    return <div className="spinner" />
+  }
   const passwordRef = useRef();
   const userRef = useRef();
   const errRef = useRef();
@@ -27,7 +31,7 @@ const Register = () => {
   const [matchFocus, setMatchFocus] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
+  const [ isLoading, setIsLoading ] = useState(false)
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -47,6 +51,7 @@ const Register = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
+    setIsLoading(true)
     // if button enabled with JS hack
     const v1 = USER_REGEX.test(user);
     const v2 = PWD_REGEX.test(pwd);
@@ -55,7 +60,7 @@ const Register = () => {
       return;
     }
     try {
-      const response = await axios.post(
+      await axios.post(
         `${api}/register`,
         JSON.stringify({ username: user, password: pwd }),
         {
@@ -63,9 +68,7 @@ const Register = () => {
           withCredentials: true,
         }
       );
-      console.log(response?.data);
-      console.log(response?.accessToken);
-      console.log(JSON.stringify(response));
+      setIsLoading(false)
       setUser("");
       setPwd("");
       setMatchPwd("");
@@ -79,6 +82,7 @@ const Register = () => {
       } else {
         setErrMsg("فشل التسجيل ");
       }
+      setIsLoading(false)
       errRef.current.focus();
     }
   };
@@ -108,11 +112,11 @@ const Register = () => {
               ""
             )}
           </>
-          <h3>تسجيل</h3>
+          <h3 style={{color:"#8cd87c", fontSize:"20px"}}>تسجيل</h3>
           <form onSubmit={handleSubmit}>
-            <div style={{display:"flex", alignItems:"center"}}>
-            <label htmlFor="username">
-              إسم المستخدم:
+            <div style={{marginTop: "1rem",display:"flex", alignItems:"center", color:"#8cd87c",fontSize:"14px"}}>
+            <label htmlFor="username" >
+              إسم المستخدم : 
             </label>
             <div className={validName ? "valid" : "hide"}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
@@ -156,8 +160,8 @@ const Register = () => {
               الحروف والأرقام والواصلة والشرطة السفلية مسموح بها.
             </p>
             <div style={{display:"flex", alignItems:"center"}}>
-            <label style={{ marginTop: "1rem" }} htmlFor="password">
-              كلمة المرور:
+            <label style={{ marginTop: "1rem", color:"#8cd87c",fontSize:"14px" }} htmlFor="password">
+              كلمة المرور :
             </label>
             <div className={validPwd ? "valid" : "hide"}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
@@ -176,6 +180,7 @@ const Register = () => {
               id="password"
               name="password"
               type="password"
+              autoComplete="off"
               onChange={(e) => setPwd(e.target.value)}
               value={pwd}
               InputRef={passwordRef}
@@ -203,8 +208,8 @@ const Register = () => {
               <span aria-label="percent">%</span>
             </p>
             <div style={{display:"flex", alignItems:"center"}}>
-              <label style={{ marginTop: "1rem" }} htmlFor="confirm_pwd">
-                تأكيد كلمة المرور:
+              <label style={{ marginTop: "1rem", color:"#8cd87c",fontSize:"14px" }} htmlFor="confirm_pwd">
+                تأكيد كلمة المرور :
               </label>
               <div className={validMatch && matchPwd ? "valid" : "hide"}>
                 <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
@@ -241,19 +246,20 @@ const Register = () => {
               يجب تطابق كلمة المرور.
             </p>
             <button
-              style={{ marginTop: "1rem" }}
+              className="btn btn-success"
+              style={{ marginTop: "2rem",backgroundColor:"#343a40", fontSize:"14px" }}
               disabled={!validName || !validPwd || !validMatch ? true : false}
             >
-              تسجيل
+              {isLoading ? Loading(): "تسجيل"}
             </button>
           </form>
-          <p>
-            مسجل بالفعل؟
+          <small>
+            مسجل بالفعل ؟
             <br />
             <span className="line1">
-              <a href="/login"> تسجيل الدخول</a>
+              <a href="/login" style={{color:"#8cd87c"}}> تسجيل الدخول</a>
             </span>
-          </p>
+          </small>
         </section>
       </div>
       <Footer />

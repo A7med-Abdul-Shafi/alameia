@@ -8,11 +8,11 @@
     overflow: hidden;
     border-radius: 50%;
     margin: 0 auto 1rem;
-    border: 0.4rem solid var(--color-primary);
+    border: 0.4rem solid #45693d;
 }
 
 .testimonials {
-    background: var(--color-bg-variant);
+    /* background: var(--color-bg-variant); */
     text-align: center;
     padding: 2rem;
     border-radius: 2rem;

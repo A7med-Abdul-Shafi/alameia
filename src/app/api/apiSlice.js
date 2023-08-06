@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../auth/authSlice'
+
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://31.220.50.152/api',
+    baseUrl: 'http://localhost:3001',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().auth.token
@@ -10,9 +11,45 @@ const baseQuery = fetchBaseQuery({
             headers.set("authorization", `Bearer ${token}`)
         }
         return headers
-    }
+    },
+    // transformResponse: (response, queryApi, credentials) => {
+    //             const { data } = response;
+    //             if (data.isLoggedIn) {
+    //                 const { sessionUserId } = data;
+    //                 const { auth } = queryApi.getState();
+    //                 if (auth.sessionUserId === sessionUserId) {
+    //                     throw new Error('User is already logged in!');
+    //                 }
+    //                 console.log("error is : ",Error )
+    //             }
+    //             return response; 
+    //         },
 })
 
+// const baseQuery = fetchBaseQuery({
+//     baseUrl: 'http://localhost:3001',
+//     credentials: 'include',
+//     transformResponse: (response, queryApi, credentials) => {
+//         const { data } = response;
+//         if (data.isLoggedIn) {
+//             const { sessionUserId } = data;
+//             const { auth } = queryApi.getState();
+//             if (auth.sessionUserId === sessionUserId) {
+//                 throw new Error('User is already logged in!');
+//             }
+//             console.log("error is : ",Error )
+//         }
+//         return response; 
+//     },
+//     prepareHeaders: (headers, { getState }) => {
+//         const token = getState().auth.token
+//         if (token) {
+//             headers.set("authorization", `Bearer ${token}`)
+//         }
+//         return headers
+//     },
+    
+// })
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions)
     if (result?.error?.status === 403) {
