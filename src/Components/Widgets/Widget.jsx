@@ -6,7 +6,7 @@ const Widget = () => {
   const [countA, setCountA] = useState(null);
   useEffect(() => {
     const countAlameia = async () => {
-      await axios.get(`${api}/alameia/count`).then((response) => {
+      await axios.get(`${api}/haramain/count`).then((response) => {
         setCountA(response.data.length);
       });
     };
@@ -15,7 +15,7 @@ const Widget = () => {
   const [countAclear, setCountAclear] = useState(null);
   useEffect(() => {
     const countAlameia = async () => {
-      await axios.get(`${api}/alameia/count/clear`).then((response) => {
+      await axios.get(`${api}/haramain/count/clear`).then((response) => {
         setCountAclear(response.data.length);
       });
     };

@@ -60,7 +60,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { accessToken } = await login({ username, password }).unwrap();
+      const { accessToken } = await login({ username, password, roles: "الحرمين" }).unwrap();
       dispatch(setCredentials({ accessToken }));
       setUsername("");
       setPassword("");

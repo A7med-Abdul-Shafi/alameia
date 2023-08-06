@@ -9,7 +9,7 @@ function Featured() {
   const [countA, setCountA] = useState([]);
   useEffect(() => {
     const countAlameia = async () => {
-      await axios.get(`${api}/alameia/all`).then((response) => {   
+      await axios.get(`${api}/haramain/all`).then((response) => {   
         setCountA(response.data);
       });
     };
@@ -20,7 +20,7 @@ function Featured() {
   const [roomsA, setRoomsA] = useState([]);
   useEffect(() => {
     const countAlameia = async () => {
-      await axios.get(`${api}/alameiarooms/alllist`).then((response) => {   
+      await axios.get(`${api}/haramainrooms/alllist`).then((response) => {   
         setRoomsA(response.data);
       });
     };
@@ -36,9 +36,6 @@ function Featured() {
     return accumulator + currentValue.capacity;
   }, 0);
   
-  const oneBuildingCapacity = countA.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue.capacity;
-  }, 0)
   /////////////////////////////////////////////
   const reportData = countA.map(item => [item.nationality, item.project])
   if (!reportData || reportData.length === 0) {

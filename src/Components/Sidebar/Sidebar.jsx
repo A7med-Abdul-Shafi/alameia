@@ -38,7 +38,7 @@ const Sidebar = () => {
                   d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
                 />
               </svg>
-              <span>العالمية</span>
+              <span>الحرمين</span>
             </li>
           </Link>
           <li style={{ fontSize: "12px", marginTop:"30px" }}>

@@ -86,7 +86,7 @@ const Tab = () => {
         <MDBTabsPane show={justifyActive === "tab1"}><New/></MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab2"}>
         <GroupData
-          omsubmitEndpoint="alameia/uploadfile"
+          omsubmitEndpoint="haramain/uploadfile"
           omsubmit2Endpoint="customer/uploadfile"
           deleteEndpoint="customer/delete"
           labelText="إضافة قاعدة بيانات العمال"
@@ -96,34 +96,34 @@ const Tab = () => {
           </MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab7"}>
           <TableData 
-          deleteEndpoint="alameia/delete"
-          queryKey="alameia"
-          fetchEndpoint="alameia"
-          truncEndpoint="alameia/delete"
-          apiFiledownload="alameia/api/file"
+          deleteEndpoint="haramain/delete"
+          queryKey="haramain"
+          fetchEndpoint="haramain"
+          truncEndpoint="haramain/delete"
+          apiFiledownload="haramain/api/file"
           /></MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab3"}>
           <TransferDues
             fetchProjects="projects/getall"
-            fetchSearch="alameia/search/edit"
-            updateEndpoint="alameia/transferdues"
-            transferDuesEndPoint="alameia/transfergroup/uploadfile"
+            fetchSearch="haramain/search/edit"
+            updateEndpoint="haramain/transferdues"
+            transferDuesEndPoint="haramain/transfergroup/uploadfile"
             />
           </MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab4"}>
           <EditData
-            searchEndpoint="alameia/search/edit"
-            updateEndpoint="alameia/update"
-            exitGroupEndpoint="alameia/exitgroup/uploadfile"
+            searchEndpoint="haramain/search/edit"
+            updateEndpoint="haramain/update"
+            exitGroupEndpoint="haramain/exitgroup/uploadfile"
           />
           </MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab5"}>
           <Maintainence
-            queryKey="alameiaMaintainence"
-            fetchData="alameiamaintainence/list"
-            searchEndpoint="alameia/search"
-            updateEndpoint="alameia/maintainence/new"
-            deleteEndpoint="alameiamaintainence/delete"
+            queryKey="haramainMaintainence"
+            fetchData="haramainmaintainence/list"
+            searchEndpoint="haramain/search"
+            updateEndpoint="haramain/maintainence/new"
+            deleteEndpoint="haramainmaintainence/delete"
           />
           </MDBTabsPane>
         <MDBTabsPane show={justifyActive === "tab6"}><AlameiaVacant/></MDBTabsPane>
